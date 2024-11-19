@@ -1,0 +1,149 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Testing</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'applicant_screening_list' %}">Screening</a>
+        <a class="sub-item" href="{% url 'applicant_testing_list' %}">Testing</a>
+        <a class="sub-item" href="{% url 'applicant_interviewing_list' %}">Interviewing</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All ApplicantTesting</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'applicant_testing_create' %}">Add Testing</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Applicant</td>
+                    <td>Test Score</td>
+                    <td>Feedback</td>
+                    <td>Status</td>
+                    <td>Last Updated</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for testing in testings %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ testing.applicant.first_name}}</h5>
+                            <p>{{ testing.applicant.email }}</p>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ testing.test_score }}</p>
+                    </td>
+                    <td >
+                        <p>{{ testing.feedback }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ testing.status }}</p>
+                    </td>
+                    <td >
+                        <p>{{ testing.last_updated  }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="javascript:void(0);" onclick="openModal('{{ testing.pk }}')"><i class="ph-fill ph-arrows-out-simple"></i></a>
+                        <a href="{% url 'applicant_testing_update' testing.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'applicant_testing_delete' testing.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if testings.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ testing.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ testings.number }} of {{ testings.paginator.num_pages }}
+            </span>
+
+            {% if testings.has_next %}
+                <a href="?page={{ testings.next_page_number }}">&gt;</a>
+                <a href="?page={{ testings.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+
+       <!-- Modal -->
+       <div id="testingModal" class="modal">
+        <div class="modal-content">
+            <div class="texte">
+                <span class="close" onclick="closeModal()"><i class="ph ph-x-circle"></i></span>
+                <h2>Testing Details</h2>
+            </div>
+            <hr>
+            <div class="top">
+                <div>
+                    <h1 id="modalAplicante"></h1>
+                    <p><i class="ph-thin ph-envelope"></i> <span id="modalAplicanteEmail"></span></p>    
+                </div>
+                <div class="status" id="modalStatus"><i class="ph-thin ph-circle"></i></div>
+            </div>
+            <div>
+                <h3>Test Score</h3>
+                <p><span id="modalTestScore"></span></p>
+            </div>
+            <div>
+                <h3>Feedback</h3>
+                <p><span id="modalFeedback"></span></p>
+            </div>
+            <div>
+                <h3>Last Updated</h3>
+                <p><span id="modalLastUpdated"></span></p>
+            </div>
+        </div>
+    </div>
+
+    {% block scripts %}
+        <script>
+            function openModal(testingId) {
+                fetch(`/recrut_screening/applicant_testing/${testingId}/detail/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('modalAplicante').textContent = `${data.applicant_first_name} ${data.applicant_last_name}`;
+                        document.getElementById('modalAplicanteEmail').textContent = data.applicant_email;
+                        document.getElementById('modalTestScore').textContent = data.test_score;
+                        document.getElementById('modalFeedback').textContent = data.feedback;
+                        document.getElementById('modalLastUpdated').textContent = data.last_updated;
+                        document.getElementById('modalStatus').textContent = data.status;
+
+                        document.getElementById('testingModal').style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error loading applicant details:', error);
+                    });
+            }
+
+            function closeModal() {
+                document.getElementById('testingModal').style.display = 'none';
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

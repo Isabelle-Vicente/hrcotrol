@@ -1,0 +1,78 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Risk Assessments</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="sub-item" href="{% url 'risk_identification_list' %}">Risk Identification</a>
+        <a class="sub-item" href="{% url 'risk_assessment_list' %}">Risk Assessment</a>
+        <a class="sub-item" href="{% url 'risk_control_list' %}">Risk Control</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Risk Assessments</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by identification" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'risk_assessment_create' %}">Add Risk Assessment</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Risk Identification</td>
+                    <td>Ergonomic</td>
+                    <td>Biological</td>
+                    <td>Chemical</td>
+                    <td>Physical</td>
+                    <td>Accident</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assessment in assessments %}
+                <tr>
+                    <td class="people-des"><p>{{ assessment.risk_identification }}</p></td>
+                    <td class="people-des"><p>{{ assessment.ergonomic }}</p></td>
+                    <td class="people-des"><p>{{ assessment.biological }}</p></td>
+                    <td class="people-des"><p>{{ assessment.chemical }}</p></td>
+                    <td class="people-des"><p>{{ assessment.physical }}</p></td>
+                    <td class="people-des"><p>{{ assessment.accident }}</p></td>
+                    <td class="icons-tablez">
+                        <a href="{% url 'risk_assessment_update' assessment.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'risk_assessment_delete' assessment.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if assessments.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ assessments.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ assessments.number }} of {{ assessments.paginator.num_pages }}
+            </span>
+
+            {% if assessments.has_next %}
+                <a href="?page={{ assessments.next_page_number }}">&gt;</a>
+                <a href="?page={{ assessments.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

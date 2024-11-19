@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Incident Report{% endblock %}
+
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+ 
+
+  <div class="form-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Incident Report,Add New Incident Report" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="flex">
+        <button  class="btn-primary" type="submit">Save</button>
+        <a href="{% url 'incident_report_list' %}" class="btn-link">Back to List</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

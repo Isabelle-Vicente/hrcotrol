@@ -1,0 +1,83 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Risk Identification</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="sub-item" href="{% url 'risk_identification_list' %}">Risk Identification</a>
+        <a class="sub-item" href="{% url 'risk_assessment_list' %}">Risk Assessment</a>
+        <a class="sub-item" href="{% url 'risk_control_list' %}">Risk Control</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Risk Identifications</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by area" class="filter-input" />
+            <form method="GET" id="filter-form">
+                <select id="area-select" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Select Area</option>
+                    {% for area in areas %}
+                    <option value="{{ area.name }}">{{ area.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            <button class="btn_add"><a href="{% url 'risk_identification_create' %}">Add Risk Identification</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Area</td>
+                    <td>Number of Employees</td>
+                    <td>Area Description</td>
+                    <td>Equipment Description</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for risk in risks %}
+                <tr>
+                    <td class="people-des"><p>{{ risk.area.name }}</p></td>
+                    <td class="people-des"><p>{{ risk.number_of_employees }}</p></td>
+                    <td class="people-des"><p>{{ risk.area_description }}</p></td>
+                    <td class="people-des"><p>{{ risk.equipment_description }}</p></td>
+                    
+                    <td class="download">
+                        <a href="{% url 'risk_identification_update' risk.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'risk_identification_delete' risk.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if risks.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ risks.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ risks.number }} of {{ risks.paginator.num_pages }}
+            </span>
+
+            {% if risks.has_next %}
+                <a href="?page={{ risks.next_page_number }}">&gt;</a>
+                <a href="?page={{ risks.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

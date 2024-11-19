@@ -1,0 +1,70 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Risk Control</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="sub-item" href="{% url 'risk_identification_list' %}">Risk Identification</a>
+        <a class="sub-item" href="{% url 'risk_assessment_list' %}">Risk Assessment</a>
+        <a class="sub-item" href="{% url 'risk_control_list' %}">Risk Control</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Risk Controls</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by assessment" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'risk_control_create' %}">Add Risk Control</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Risk Assessment</td>
+                    <td>Mitigation</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for control in controls %}
+                <tr>
+                    <td class="people-des"><p>{{ control.risk_assessment }}</p></td>
+                    <td class="people-des"><p>{{ control.mitigation }}</p></td>
+                    <td class="download">
+                        <a href="{% url 'risk_control_update' control.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'risk_control_delete' control.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if controls.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ controls.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ controls.number }} of {{ controls.paginator.num_pages }}
+            </span>
+
+            {% if controls.has_next %}
+                <a href="?page={{ controls.next_page_number }}">&gt;</a>
+                <a href="?page={{ controls.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

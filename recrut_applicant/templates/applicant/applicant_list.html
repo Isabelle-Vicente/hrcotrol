@@ -1,0 +1,240 @@
+{% extends 'base_generic.html' %} {% load static %} {% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/lists.css' %}" />
+<link rel="stylesheet" href="{% static 'css/modal.css' %}" />
+
+{% endblock %} {% block content %}
+<section class="main-title">
+  <h1>Applicant</h1>
+  <div class="buttons">
+    <div class="buttons">
+      
+    </div>
+  </div>
+</section>
+
+<div class="card">
+  <div class="card-header">
+    <h2>All Applicant</h2>
+    <div class="filters">
+      <input type="search" placeholder="Filter by name" class="filter-input" />
+      <button class="btn_add">
+        <a href="{% url 'applicant_create' %}">Add Applicants</a>
+      </button>
+    </div>
+  </div>
+  <div class="board">
+    <table width="100%">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Last Name</td>
+          <td>Phone</td>
+          <td>Salary</td>
+          <td>Education</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for applicant in applicants %}
+        <tr>
+          <td class="people">
+            {% if applicant.image %}
+            <img
+              src="{{ applicant.image.url }}"
+              alt="{{ applicant.first_name }} {{ applicant.last_name }}"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/avatar.svg' %}"
+              alt="{{ applicant.first_name }} {{ applicant.last_name }}"
+            />
+            {% endif %}
+            <div class="">
+              <h5>{{ applicant.first_name }}</h5>
+              <p>{{ applicant.email }}</p>
+            </div>
+          </td>
+          <td>
+            <p>{{ applicant.last_name }}</p>
+          </td>
+          <td>
+            <p>{{ applicant.phone }}</p>
+          </td>
+          <td class="active">
+            <p>{{ applicant.salary }}</p>
+          </td>
+          <td>
+            <p>{{ applicant.education }}</p>
+          </td>
+          <td class="table-icons">
+            <a
+              href="javascript:void(0);"
+              onclick="openModal('{{ applicant.pk }}')"
+              ><i class="ph-fill ph-arrows-out-simple"></i
+            ></a>
+            <a href="{% url 'applicant_update' applicant.pk %}"
+              ><i class="ph-fill ph-eraser"></i
+            ></a>
+            <a href="{% url 'applicant_delete' applicant.pk %}"
+              ><i class="ph-fill ph-trash"></i
+            ></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <div class="pagination">
+    <span class="step-links">
+      {% if applicants.has_previous %}
+      <a href="?page=1">&laquo; </a>
+      <a href="?page={{ applicant.previous_page_number }}">&lt;</a>
+      {% endif %}
+
+      <span class="current">
+        {{ applicants.number }} of {{ applicants.paginator.num_pages }}
+      </span>
+
+      {% if applicants.has_next %}
+      <a href="?page={{ applicant.next_page_number }}">&gt;</a>
+      <a href="?page={{ applicant.paginator.num_pages }}"> &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+<div id="applicantModal" class="modal">
+  <div class="modal-content">
+    <div class="texte">
+      <span class="close" onclick="closeModal()"
+        ><i class="ph ph-x-circle"></i
+      ></span>
+      <h2>Applicant Details</h2>
+    </div>
+
+    <hr />
+
+    <div class="top">
+      <div class="people">
+        <img id="modalImage" src="" alt="Applicant Image" class="img" />
+        <div class="flex">
+          <div>
+            <h1 id="modalName"></h1>
+            <p class="flex"><i class="ph ph-envelope"></i><span id="modalEmail"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status" id="modalStatus">
+        <i class="ph-thin ph-circle"></i>
+      </div>
+    </div>
+
+    <div class="box">
+      <div>
+        <p>Phone</p>
+        <h4><span id="modalPhone"></span></h4>
+      </div>
+
+      <div>
+        <p>Salary</p>
+        <h4><span id="modalSalary"></span></h4>
+      </div>
+
+      <div>
+        <p>Date</p>
+        <h4><span id="modalDate"></span></h4>
+      </div>
+    </div>
+
+    <hr />
+
+
+    <div>
+      <h3>About</h3>
+      <p><span id="modalAbout"></span></p>
+    </div>
+
+    <div>
+      <h3>Education</h3>
+      <p><span id="modalEducation"></span></p>
+    </div>
+
+    <div>
+      <h3>Skills</h3>
+      <p><span id="modalSkills"></span></p>
+    </div>
+
+    <hr />
+    <h2>Documents</h2>
+
+    <div class="resume">
+      <div class="flex"><img src="{% static 'image/pdf_icon.svg' %}" alt=""><p>Resume.pdf</p></div>
+      <p><a id="modalResume" href="#" target="_blank">Download <i class="ph ph-arrow-down"></i></a></p>
+    </div>
+
+    <div class="portfolio">
+      <p><i class="ph ph-paperclip icon"></i> <strong>Portfolio_</strong> </p>
+      <p><a id="modalPortfolio" href="#" target="_blank"><i class="ph ph-arrow-square-out"></i></a></p>
+    </div>
+
+    <div class="resume">
+      <div class="flex"><img src="{% static 'image/pdf_icon.svg' %}" alt=""><p>Cover_Letter.pdf</p></div>
+      <p><a id="modalCoverLetter" href="#" target="_blank">Download <i class="ph ph-arrow-down"></i></a></p>
+    </div>
+
+    
+    
+  </div>
+</div>
+
+{% block scripts %}
+<script>
+  function openModal(applicantId) {
+    fetch(`/applicant/applicants/${applicantId}/json/`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        document.getElementById(
+          "modalName"
+        ).textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById("modalEmail").textContent = data.email;
+        document.getElementById("modalPhone").textContent = data.phone;
+        document.getElementById("modalSalary").textContent = data.salary;
+        document.getElementById("modalStatus").textContent = data.status;
+        document.getElementById("modalDate").textContent =
+          data.application_date;
+        document.getElementById("modalAbout").textContent = data.about;
+        document.getElementById("modalEducation").textContent = data.education;
+        document.getElementById("modalSkills").textContent = data.skills;
+
+        const imageElement = document.getElementById("modalImage");
+        if (data.image) {
+          imageElement.src = data.image;
+          imageElement.style.display = "block";
+        } else {
+          imageElement.style.display = "none";
+        }
+
+        document.getElementById("modalResume").href = data.resume;
+        document.getElementById("modalCoverLetter").href = data.cover_letter;
+        document.getElementById("modalPortfolio").href = data.portfolio;
+
+        document.getElementById("applicantModal").style.display = "block";
+      })
+      .catch((error) =>
+        console.error("Error loading applicant details:", error)
+      );
+  }
+
+  function closeModal() {
+    document.getElementById("applicantModal").style.display = "none";
+  }
+</script>
+{% endblock %} {% endblock %}

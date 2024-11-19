@@ -1,0 +1,63 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Incident Report</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Incident Report</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'incident_report_create' %}">Add Incident Report</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name of the employee</td>
+                    <td>Identification Number</td>
+                    <td>Identification Document</td>
+                    <td>Type Accident</td>
+                    <td>Doctor Name</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incidentreport in incidentreports %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ incidentreport.name }}</h5>
+                            <p>{{ incidentreport.address }}</p>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ incidentreport.identification_number }}</p>
+                    </td>
+                    <td >
+                        <p>{{ incidentreport.identification_document }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ incidentreport.type_accident }}</p>
+                    </td>
+                    <td >
+                        <p>{{ incidentreport.doctor_name }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'incident_report_update' incidentreport.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'incident_report_delete' incidentreport.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

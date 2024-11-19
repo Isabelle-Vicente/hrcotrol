@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Risk Identification{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="form-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Risk Identification,Add New Risk Identification" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="flex">
+        <button type="submit">Save</button>
+        <a href="{% url 'risk_identification_list' %}" class="btn-link">Back to List</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

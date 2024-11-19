@@ -1,0 +1,103 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Employees</h1>
+    <div class="buttons">
+        <button>Alie documents</button>
+        <button>Receipt</button>
+        <button>Contracts</button>
+        <button>Others</button>
+        <button>Pre-categorized</button>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Employees</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <form method="GET" id="filter-form">
+            <select id="department-select" class="filter-select" onchange="this.form.submit()">
+                <option value="">Department</option>
+                {% for department in departments %}
+                <option value="{{ department.name }}">{{ department.name }}</option>
+                {% endfor %}
+            </select>
+            </form>
+            <button class="btn_add"><a href="{% url 'employee_create' %}">Add Employees</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Last Name</td>
+                    <td>Phone</td>
+                    <td>Salary</td>
+                    <td>Position</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td class="people">
+                    {% if employee.image %}
+                        <img src="{{ employee.image.url }}" alt="{{ employee.first_name }} {{ employee.last_name }}">
+                    {% else %}
+                        <img src="{% static 'images/avatar.svg' %}" alt="{{ employee.first_name }} {{ employee.last_name }}">
+                    {% endif %}
+                        <div class="people-de">
+                            <h5>{{ employee.first_name }}</h5>
+                            <p>{{ employee.email }}</p>
+                        </div>
+                    </td>
+                    <td class="people-des">
+                        <p>{{ employee.last_name }}</p>
+                    </td>
+                    <td class="people-des">
+                        <p>{{ employee.phone }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ employee.salary }}</p>
+                    </td>
+                    <td class="people-des">
+                        <p>{{ employee.position }}</p>
+                    </td>
+                    <td class="download">
+                        <a href="{% url 'employee_update' employee.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'employee_delete' employee.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if employees.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ employees.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ employees.number }} of {{ employees.paginator.num_pages }}
+            </span>
+
+            {% if employees.has_next %}
+                <a href="?page={{ employees.next_page_number }}">&gt;</a>
+                <a href="?page={{ employees.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

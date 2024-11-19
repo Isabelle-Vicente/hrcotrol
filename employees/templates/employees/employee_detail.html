@@ -1,0 +1,72 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <style>
+    .employee-details {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+
+    .employee-details h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .employee-details p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .employee-details strong {
+      color: #333;
+    }
+
+    .employee-details img {
+      max-width: 150px;
+      height: auto;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .employee-details a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 16px;
+      margin-right: 10px;
+      transition: color 0.3s;
+    }
+
+    .employee-details a:hover {
+      color: #0056b3;
+    }
+
+    .employee-details .actions {
+      margin-top: 20px;
+    }
+  </style>
+
+  <div class="employee-details">
+    <h2>{{ employee.first_name }} {{ employee.last_name }}</h2>
+    <p><strong>Email:</strong> {{ employee.email }}</p>
+    <p><strong>Phone:</strong> {{ employee.phone }}</p>
+    <p><strong>Position:</strong> {{ employee.position }}</p>
+    <p><strong>Hire Date:</strong> {{ employee.hire_date }}</p>
+
+    {% if employee.image %}
+      <p><strong>Image:</strong></p>
+      <img src="{{ employee.image.url }}" alt="{{ employee.first_name }}">
+    {% endif %}
+
+    <div class="actions">
+      <a href="{% url 'employee_update' employee.pk %}">Edit</a> |
+      <a href="{% url 'employee_delete' employee.pk %}">Delete</a> |
+      <a href="{% url 'employee_list' %}">Back to List</a>
+    </div>
+  </div>
+{% endblock %}

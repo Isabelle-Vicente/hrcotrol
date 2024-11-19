@@ -1,0 +1,113 @@
+section.help {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4f8; /* Adiciona um fundo leve à seção */
+}
+
+.container-help {
+    width: 80%;
+    max-width: 1000px; /* Define um tamanho máximo para o container */
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto; /* Centraliza o container */
+}
+
+.content-help {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 40px 20px;
+    border-radius: 10px;
+    gap: 20px; /* Adiciona espaçamento entre os itens */
+}
+
+.image-help {
+    flex: 1;
+    max-width: 50%;
+}
+
+.image-help img {
+    width: 100%;
+    border-radius: 8px; /* Adiciona bordas arredondadas à imagem */
+}
+
+form {
+    flex: 1;
+    max-width: 50%;
+}
+
+.topic {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.input-help,
+.message-box {
+    margin-bottom: 20px; /* Adiciona espaço entre os campos */
+    position: relative;
+}
+
+.input-help input,
+.message-box textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.input-help input:focus,
+.message-box textarea:focus {
+    border-color: #5b21b6;
+    background: #fff;
+}
+
+.input-help label,
+.message-box label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    color: #777;
+    font-size: 14px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+}
+
+.input-help input:focus ~ label,
+.input-help input:valid ~ label,
+.message-box textarea:focus ~ label {
+    top: -12px;
+    left: 12px;
+    color: #5b21b6;
+    font-size: 12px;
+    background: #fff;
+}
+
+.message-box {
+    min-height: 120px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background: #5b21b6;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #51229c;
+}

@@ -1,0 +1,66 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/chart.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Dashboard</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="sub-item" href="{% url 'risk_identification_list' %}">Risk Identification</a>
+        <a class="sub-item" href="{% url 'risk_assessment_list' %}">Risk Assessment</a>
+        <a class="sub-item" href="{% url 'risk_control_list' %}">Risk Control</a>
+    </div>
+</section>
+
+<div class="dashboard">
+    {% for assessment in assessments %}
+        <div class="card">
+            <h2 class="title">{{ assessment.risk_identification.area.name }} - Risk Levels</h2>
+            <div class="flex">
+                <p class="legend">
+                  <span class="square_low"></span>
+                  Low
+                </p>
+      
+                <p class="legend">
+                  <span class="square_medium"></span>
+                  Medium
+                </p>
+      
+                <p class="legend">
+                  <span class="square_high"></span>
+                  High
+                </p>
+            </div>
+            <div class="flex">
+                <div class="category">
+                    <p>Ergonomic</p>
+                    <div class="circle {{ assessment.ergonomic|lower }}"></div>
+                </div>
+                <div class="category">
+                    <p>Biological</p>
+                    <div class="circle {{ assessment.biological|lower }}"></div>
+                </div>
+                <div class="category">
+                    <p>Chemical</p>
+                    <div class="circle {{ assessment.chemical|lower }}"></div>
+                </div>
+                <div class="category">
+                    <p>Physical</p>
+                    <div class="circle {{ assessment.physical|lower }}"></div>
+                </div>
+                <div class="category">
+                    <p>Accident</p>
+                    <div class="circle {{ assessment.accident|lower }}"></div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

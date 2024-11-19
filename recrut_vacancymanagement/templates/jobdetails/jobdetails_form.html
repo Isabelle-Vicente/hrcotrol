@@ -1,0 +1,110 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Applicant{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="form-container">
+    <h2>{{ form.instance.pk|yesno:"Edit JobDetails,Add new JobDetails" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="title">Job Title</label>
+        {{ form.title }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        {{ form.description }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Education</label>
+        {{ form.education }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Category</label>
+        {{ form.category }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Location</label>
+        {{ form.location }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Salary Range</label>
+        {{ form.salary_range }}  
+      </div>
+
+      <div class="form-group">
+        <label for="description">Status</label>
+        {{ form.status }}  
+      </div>
+
+
+      <div class="form-group">
+        <label for="requirements">Job Requirements (multiple entries)</label>
+        <input type="text" id="requirementInput" class="form-control" placeholder="Enter requirement" />
+        <button type="button" class="btn-requirements " id="addRequirementBtn"><i class="ph-fill ph-plus-circle icon"></i>
+
+        </button>
+        <ul id="requirementsList">
+          {% for req in requirements_list %}
+            <li>{{ req }}</li>
+            <script>
+              requirements.push("{{ req }}");  // Adiciona ao array do JavaScript
+            </script>
+          {% endfor %}
+        </ul>
+        
+      </div>
+
+      <input type="hidden" name="requirements" id="requirementsInputHidden">
+
+      <div class="flex">
+        <button class="btn-primary" type="submit">Save</button>
+        <a href="{% url 'jobdetails_list' %}" class="btn-link">Back to List</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Scripts para o funcionamento da lista dinâmica -->
+  <script>
+    // Armazena os requisitos adicionados
+    let requirements = [];
+
+    // Função para adicionar um requisito à lista
+    document.getElementById('addRequirementBtn').addEventListener('click', function() {
+      const requirementInput = document.getElementById('requirementInput');
+      const requirementText = requirementInput.value.trim();
+
+      // Verifica se o campo não está vazio
+      if (requirementText) {
+          // Adiciona o requisito ao array
+          requirements.push(requirementText);
+
+          // Cria um novo item de lista
+          const li = document.createElement('li');
+          li.textContent = requirementText;
+
+          // Adiciona o item à lista no HTML
+          document.getElementById('requirementsList').appendChild(li);
+
+          // Limpa o campo de entrada
+          requirementInput.value = '';
+
+          // Atualiza o campo oculto com os requisitos no formato de string separada por vírgulas
+          document.getElementById('requirementsInputHidden').value = requirements.join(', ');
+      } else {
+          alert("Please enter a requirement.");
+      }
+    });
+  </script>
+
+{% endblock %}

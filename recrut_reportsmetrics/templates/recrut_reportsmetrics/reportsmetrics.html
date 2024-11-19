@@ -1,0 +1,153 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/chart.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="app">
+    <div class="card">
+        <h2 class="title">Number of Applicants per Vacancy</h2>
+        <div class="flex">
+            <canvas id="candidatesChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2 class="title">Total Scores by Applicant</h2>
+        <div class="flex">
+            <canvas id="scoresChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2 class="title">Applicant Status Distribution</h2>
+        <div class="flex">
+            <canvas id="statusChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="title">Applicants Registered Per Month</h2>
+        <div class="flex">
+            <canvas id="monthlyChart" ></canvas>        
+        </div>
+    </div>
+    
+</div>
+{% block scripts %}
+<script>
+    // Gráfico 1: Número de Candidatos por Vaga
+    const ctxCandidates = document.getElementById('candidatesChart').getContext('2d');
+    const labelsCandidates = {{ labels_candidates|safe }};
+    const dataCandidates = {{ data_candidates|safe }};
+
+    new Chart(ctxCandidates, {
+        type: 'bar',
+        data: {
+            labels: labelsCandidates,
+            datasets: [{
+                label: 'Number of Applicants',
+                data: dataCandidates,
+                backgroundColor: '#5d21d163',
+                borderColor: '#5d21d1',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Gráfico 2: Pontuações Totais por Candidato
+    const ctxScores = document.getElementById('scoresChart').getContext('2d');
+    const labelsScores = {{ labels_scores|safe }};
+    const dataScores = {{ data_scores|safe }};
+
+    new Chart(ctxScores, {
+        type: 'bar',
+        data: {
+            labels: labelsScores,
+            datasets: [{
+                label: 'Total Scores',
+                data: dataScores,
+                backgroundColor: '#5d21d163',
+                borderColor: '#5d21d1',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Gráfico 3: Distribuição de Status de Candidatos
+    const ctxStatus = document.getElementById('statusChart').getContext('2d');
+    const labelsStatus = {{ labels_status|safe }};
+    const dataStatus = {{ data_status|safe }};
+
+    new Chart(ctxStatus, {
+        type: 'bar',
+        data: {
+            labels: labelsStatus,
+            datasets: [{
+                label: 'Applicant Status',
+                data: dataStatus,
+                backgroundColor: '#5d21d163',
+                borderColor: '#5d21d1',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+
+
+    // Gráfico 4: Candidatos cadastrados por mês
+    const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+    const labelsMonths = {{ labels_months|safe }};
+    const dataMonths = {{ data_months|safe }};
+
+    new Chart(ctxMonthly, {
+        type: 'line',
+        data: {
+            labels: labelsMonths,
+            datasets: [{
+                label: 'Applicants Registered',
+                data: dataMonths,
+                backgroundColor: '#5d21d163',
+                borderColor: '#5d21d1',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+</script>
+{% endblock %}
+{% endblock %}

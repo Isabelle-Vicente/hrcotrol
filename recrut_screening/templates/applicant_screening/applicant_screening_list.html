@@ -1,0 +1,185 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Screening </h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'applicant_screening_list' %}">Screening</a>
+        <a class="sub-item" href="{% url 'applicant_testing_list' %}">Testing</a>
+        <a class="sub-item" href="{% url 'applicant_interviewing_list' %}">Interviewing</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All ApplicantScreening</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'applicant_screening_create' %}">Add Screening</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Applicant</td>
+                    <td>Job</td>
+                    <td>Score Skills</td>
+                    <td>Score Experience</td>
+                    <td>Score Compatibility</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for screening in screenings %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ screening.applicant.first_name}}</h5>
+                            <p>{{ screening.applicant.email }}</p>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ screening.job.title }}</p>
+                    </td>
+                    <td >
+                        <p>{{screening.score_skills}}%</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ screening.score_experience }}%</p>
+                    </td>
+                    <td >
+                        <p>{{ screening.score_compatibility  }}%</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="javascript:void(0);" onclick="openModal('{{ screening.pk }}')"><i class="ph-fill ph-arrows-out-simple"></i></a>
+                        <a href="{% url 'applicant_screening_update' screening.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'applicant_screening_delete' screening.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    
+    <!-- Paginador -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if screenings.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ screening.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ screenings.number }} of {{ screenings.paginator.num_pages }}
+            </span>
+
+            {% if screenings.has_next %}
+                <a href="?page={{ screening.next_page_number }}">&gt;</a>
+                <a href="?page={{ screening.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+
+    <div id="screeningModal" class="modal">
+        <div class="modal-content">
+                <div class="texte">
+                    <span class="close" onclick="closeModal()"><i class="ph ph-x-circle"></i></span>
+                    <h2>Screening Details </h2>
+                </div>
+            
+            <hr>
+
+                <div class="top">
+                   <div>
+                      <h1 id="modalAplicante"></h1>
+                      <p><i class="ph-thin ph-envelope"></i> <span id="modalAplicanteEmail"></span></p>
+                   </div>
+
+                    <div class="status" id="modalStatus"><i class="ph-thin ph-circle"></i></div>
+                </div>
+
+            
+           
+
+                <div class="box">
+                    <div>
+                        <p>Score Skills</p>
+                        <h4><span id="modalScoreSkills"></span>%</h4>
+                    </div>
+        
+                    <div>
+                        <p>Score Experience</p>
+                        <h4><span id="modalScoreExperience"></span>%</h4>
+                    </div>
+                   
+                    <div>
+                        <p>Score Compatibility</p>
+                        <h4><span id="modalScoreCompatibility"></span>%</h4>
+                    </div>
+                </div>
+
+           
+
+            <div>
+                <h3>Description</h3>
+                <p><span id="modalJobTitle"></span></p>
+            </div>
+
+            <div>
+                <h3>Comments</h3>
+                <p><span id="modalComments"></span></p>
+            </div>
+
+            <div>
+                <h3>Screening Date</h3>
+                <p><span id="modalScreeningDate"></span></p>
+            </div>
+
+            <div>
+                <h3>Reviewer</h3>
+                <p><span id="modalReviewer"></span></p>
+            </div>
+        </div>
+    </div>
+
+    {% block scripts %}
+        <script>
+            function openModal(screeningId) {
+                fetch(`/recrut_screening/applicant_screening/${screeningId}/detail/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('modalAplicante').textContent = `${data.applicant_first_name} ${data.applicant_last_name}`;
+                        document.getElementById('modalAplicanteEmail').textContent = data.applicant_email;
+                        document.getElementById('modalJobTitle').textContent = data.job;
+                        document.getElementById('modalScoreSkills').textContent = data.score_skills;
+                        document.getElementById('modalScoreExperience').textContent = data.score_experience;
+                        document.getElementById('modalScoreCompatibility').textContent = data.score_compatibility;
+                        document.getElementById('modalComments').textContent = data.comments;
+                        document.getElementById('modalScreeningDate').textContent = data.screening_date;
+                        document.getElementById('modalReviewer').textContent = data.reviewer;
+                        document.getElementById('modalStatus').textContent = data.status;
+
+                        document.getElementById('screeningModal').style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error loading applicant details:', error);
+                    });
+            }
+
+            function closeModal() {
+                document.getElementById('screeningModal').style.display = 'none';
+            }
+
+        </script>
+    {% endblock %}
+{% endblock %}
