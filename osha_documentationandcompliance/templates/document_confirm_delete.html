@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/confirm_delete.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="confirmation-container">
+    <h2>Delete Document</h2>
+  <p>Are you sure you want to delete "{{ document.title }}"?</p>
+  <form method="post">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Yes, delete</button>
+      <a href="{% url 'document_list' %}">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

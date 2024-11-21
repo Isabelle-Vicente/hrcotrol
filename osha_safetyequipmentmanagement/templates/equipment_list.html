@@ -1,0 +1,67 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Safety Equipment Management</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'equipment_list' %}">Equipment</a>
+        <a class="sub-item" href="{% url 'maintenance_inspection_list' %}">Maintenance Inspection</a>
+        <a class="sub-item" href="{% url 'epi_distribution_list' %}">Maintenance Inspection</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Equipment</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'equipment_create' %}">Add Equipment</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name of the equipment</td>
+                    <td>Equipment type</td>
+                    <td>Description</td>
+                    <td>Quantity</td>
+                    <td>Acquisition_date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipment in equipments %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ equipment.name }}</h5>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ equipment.type }}</p>
+                    </td>
+                    <td >
+                        <p>{{ equipment.description }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ equipment.quantity }}</p>
+                    </td>
+                    <td >
+                        <p>{{ equipment.acquisition_date }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'equipment_update' equipment.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'equipment_delete' equipment.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

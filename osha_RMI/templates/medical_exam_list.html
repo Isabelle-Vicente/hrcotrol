@@ -1,0 +1,67 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Regular Monitoring and Inspections</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'safety_inspection_list' %}">Safety Inspection</a>
+        <a class="sub-item" href="{% url 'medical_exam_list' %}">Medical Exam</a>
+        <a class="sub-item" href="{% url 'occupational_health_monitoring_list' %}">Occupational Health Monitoring</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Medical Exam</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'medical_exam_create' %}">Add Medical Exam</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name of the employee</td>
+                    <td>Exam Type</td>
+                    <td>Exam Date</td>
+                    <td>Status</td>
+                    <td>Result</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicalexam in medicalexams %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ medicalexam.employee_name }}</h5>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ medicalexam.exam_type }}</p>
+                    </td>
+                    <td >
+                        <p>{{ medicalexam.exam_date }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ medicalexam.status }}</p>
+                    </td>
+                    <td >
+                        <p>{{ medicalexam.result }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'medical_exam_update' medicalexam.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'medical_exam_delete' medicalexam.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Safety Planning and Procedures</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'safetypolicy_list' %}">Safety Policy</a>
+        <a class="sub-item" href="{% url 'operational_procedure_list' %}">Operational Procedure</a>
+        <a class="sub-item" href="{% url 'emergency_plan_list' %}">Emergency Plan</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Safety Policy</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'safetypolicy_create' %}">Add Safety Policy</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name </td>
+                    <td>Description</td>
+                    <td>Created At</td>
+                    <td>Active</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for safetypolicy in safetypolicys %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <p>{{ safetypolicy.name }}</p>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ safetypolicy.description }}</p>
+                    </td>
+                    <td >
+                        <p>{{ safetypolicy.created_at }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ safetypolicy.active }}</p>
+                    </td>
+                  
+                    <td class="table-icons">
+                        <a href="{% url 'safetypolicy_update' incidentreport.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'safetypolicy_delete' incidentreport.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

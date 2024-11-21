@@ -5,7 +5,7 @@ from department.models import Area, Department
 class Employee(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=11, unique=True)
+    password = models.CharField(max_length=11)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
     hire_date = models.DateField()

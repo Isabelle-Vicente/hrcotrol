@@ -1,0 +1,102 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/document.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+  <section class="main-title">
+    <h1>Documents and Compliace</h1>
+</section>
+
+
+<section class="drag-files">
+    <button>  <a href="{% url 'document_create' %}">Add new document</a>
+    </button>
+
+    <p>Click para cadastrar um documento</p>
+
+
+</section>
+
+
+
+<section class="document-list">
+</button>
+<div class="card">
+    <div class="card-header">
+        <h2>All Documents</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <select class="filter-select">
+                <option value="">category</option>
+                <option value="legal">Legal</option>
+                <option value="normative">Normative</option>
+                <option value="regulatory">Regulatory</option>
+            </select>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Responsible</td>
+                    <td>Title</td>
+                    <td>Type</td>
+                    <td>Status</td>
+                    <td>Uploaded At</td>
+                    <td>Size</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tbody>
+                    {% for document in documents %}
+                    <tr>
+                        <td class="people">
+                            <img src="https://avatars.githubusercontent.com/u/73740552?s=400&u=bcf0e746e7c04c70d4f98ca4cee96edd027cf1be&v=4" alt="">
+                            <div class="people-de">
+                                <h5>{{ document.responsible.username }}</h5>
+                                <p>{{ document.responsible.email }}</p>
+                            </div>
+                        </td>
+            
+                        <td class="people-des">
+                            <p>{{ document.title }}</p>
+                        </td>
+            
+                        <td class="people-des">
+                            <p>{{ document.type }}</p>
+                        </td>
+            
+                        <td class="active"><p>{{ document.get_status_display }}</p></td>
+            
+                        <td class="people-des">
+                            <p>{{ document.uploaded_at }}</p>
+                        </td>
+                        
+            
+                        
+                        <td class="role">
+                            <p>  {{ document.size }}</p>
+                        </td>
+            
+                        <td class="download">
+                            <a href="{% url 'document_update' document.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                            <a href="{% url 'document_delete' document.pk %}"><i class="ph-fill ph-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                   </tbody>               
+        </table>
+    </div>
+</div>
+
+</section>
+ 
+
+{% endblock %}

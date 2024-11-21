@@ -18,12 +18,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'department',
     'employees',
+
     'recrut_applicant',
     'recrut_vacancymanagement',
     'recrut_screening',
     'recrut_reportsmetrics',
+
     'osha_riskanalysis',
     'osha_incidentreport',
+    'osha_RMI',
+    'osha_safetyequipmentmanagement',
+    'osha_documentationandcompliance',
+    'osha_SPP',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,66 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Regular Monitoring and Inspections</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'safety_inspection_list' %}">Safety Inspection</a>
+        <a class="sub-item" href="{% url 'medical_exam_list' %}">Medical Exam</a>
+        <a class="sub-item" href="{% url 'occupational_health_monitoring_list' %}">Occupational Health Monitoring</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Safety Inspection</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'safety_inspection_create' %}">Add Safety Inspection</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Date</td>
+                    <td>Auditor</td>
+                    <td>Inspected Areas</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for safetyinspection in safetyinspections %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <p>{{ safetyinspection.name }}</p>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ safetyinspection.description }}</p>
+                    </td>
+                    <td >
+                        <p>{{ safetyinspection.date }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ safetyinspection.status }}</p>
+                    </td>
+                    <td >
+                        <p>{{ safetyinspection.inspected_areas }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'safety_inspection_update' safetyinspection.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'safety_inspection_delete' safetyinspection.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

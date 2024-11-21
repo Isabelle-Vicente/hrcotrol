@@ -1,0 +1,67 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Safety Planning and Procedures</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'safetypolicy_list' %}">Safety Policy</a>
+        <a class="sub-item" href="{% url 'operational_procedure_list' %}">Operational Procedure</a>
+        <a class="sub-item" href="{% url 'emergency_plan_list' %}">Emergency Plan</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Emergency Plan</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'emergency_plan_create' %}">Add Emergency Plan</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Emergency Type</td>
+                    <td>Description</td>
+                    <td>Procedure</td>
+                    <td>Created at</td>
+                    <td>Active</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emergencyplan in emergencyplans %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ emergencyplan.emergency_type }}</h5>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ emergencyplan.description }}</p>
+                    </td>
+                    <td >
+                        <p>{{ emergencyplan.procedure }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ emergencyplan.created_at }}</p>
+                    </td>
+                    <td >
+                        <p>{{ emergencyplan.active }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'emergency_plan_update' emergencyplan.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'emergency_plan_delete' emergencyplan.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Regular Monitoring and Inspections</h1>
+    <div class="buttons">
+        <a class="sub-item" href="{% url 'safety_inspection_list' %}">Safety Inspection</a>
+        <a class="sub-item" href="{% url 'medical_exam_list' %}">Medical Exam</a>
+        <a class="sub-item" href="{% url 'occupational_health_monitoring_list' %}">Occupational Health Monitoring</a>
+    </div>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Occupational Health Monitoring</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'occupational_health_monitoring_create' %}">Add Occupational Health Monitoring</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name of the employee</td>
+                    <td>Exams</td>
+                    <td>Monitoring Start Date</td>
+                    <td>Last Update</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for occupationalhealthmonitoring in occupationalhealthmonitorings %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ occupationalhealthmonitoring.employee }}</h5>
+                        </div>
+                    </td>
+                    <td >
+                        <p>{{ occupationalhealthmonitoring.exams }}</p>
+                    </td>
+                    <td >
+                        <p>{{ occupationalhealthmonitoring.monitoring_start_date }}</p>
+                    </td>
+                    <td class="active">
+                        <p>{{ occupationalhealthmonitoring.last_update }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'occupational_health_monitoring_update' incidentreport.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'occupational_health_monitoring_delete' incidentreport.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}

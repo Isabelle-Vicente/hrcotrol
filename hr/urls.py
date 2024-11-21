@@ -28,12 +28,22 @@ urlpatterns = [
     path('', login_view, name='login'),
     path('home/', TemplateView.as_view(template_name="base_generic.html"), name='home'),
     path('employees/', include('employees.urls')),
-    path('risk-analysis/', include('osha_riskanalysis.urls')),  # Inclua aqui o seu app de risco
+
+
     path('applicant/', include('recrut_applicant.urls')),
     path('vacancymanagement/', include('recrut_vacancymanagement.urls')),
     path('recrut_screening/', include('recrut_screening.urls')),
     path('reports-metrics/', include('recrut_reportsmetrics.urls')),
-    path('incident-report/', include('osha_incidentreport.urls')), 
+
+    path('risk-analysis/', include('osha_riskanalysis.urls')),  
+    path('incident-report/', include('osha_incidentreport.urls')),
+    path('regular-monitoring-inspections/', include('osha_RMI.urls')), 
+    path('safety-equipment-management/', include('osha_safetyequipmentmanagement.urls')), 
+    path('osha-documentationand-compliance/', include('osha_documentationandcompliance.urls')), 
+    path('osha-safetyplanning-procedures/', include('osha_SPP.urls')), 
+
+
+
 
 
 ]
