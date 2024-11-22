@@ -13,13 +13,9 @@ class Applicant(models.Model):
     application_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('interview', 'Interview'), ('hired', 'Hired'), ('rejected', 'Rejected')], default='pending')
     image = models.ImageField(upload_to='applicant_images/', null=True, blank=True)
-
-    
     about = models.TextField()
     education = models.TextField()
     skills  = models.CharField(max_length=500, null=True) 
-
-
     interactions = models.TextField(blank=True, null=True)  
 
 

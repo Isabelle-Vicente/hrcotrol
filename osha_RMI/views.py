@@ -3,17 +3,20 @@ from osha_RMI.forms import MedicalExamForm, OccupationalHealthMonitoringForm, Sa
 from osha_RMI.models import MedicalExam, OccupationalHealthMonitoring, SafetyInspection
 
 def safety_inspection_list(request):
-    safetyinspection = SafetyInspection.objects.all()
-    return render(request, 'safety_inspection_list.html', {'safetyinspection': safetyinspection})
+    safetyinspections = SafetyInspection.objects.all() 
+    return render(request, 'safety_inspection_list.html', {'safetyinspections': safetyinspections})  
 
 def safety_inspection_create(request):
     if request.method == 'POST':
         form = SafetyInspectionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('safety_inspection_list')  
+            return redirect('safety_inspection_list')
+        else:
+            print(form.errors)  
     else:
-        form = SafetyInspectionForm() 
+        form = SafetyInspectionForm()
+
     return render(request, 'safety_inspection_form.html', {'form': form})
 
 def safety_inspection_update(request, pk):
@@ -37,8 +40,8 @@ def safety_inspection_delete(request, pk):
 #----------------------------------------------------------------------------------------------------------
 
 def medical_exam_list(request):
-    medicalexam = MedicalExam.objects.all()
-    return render(request, 'medical_exam_list.html', {'medicalexam': medicalexam})
+    medicalexams = MedicalExam.objects.all()  
+    return render(request, 'medical_exam_list.html', {'medicalexams': medicalexams})  
 
 def medical_exam_create(request):
     if request.method == 'POST':

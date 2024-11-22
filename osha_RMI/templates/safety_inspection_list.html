@@ -28,6 +28,7 @@
             <thead>
                 <tr>
                     <td>Name</td>
+                    <td>Description</td>
                     <td>Date</td>
                     <td>Auditor</td>
                     <td>Inspected Areas</td>
@@ -42,16 +43,16 @@
                             <p>{{ safetyinspection.name }}</p>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ safetyinspection.description }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ safetyinspection.date }}</p>
                     </td>
                     <td class="active">
                         <p>{{ safetyinspection.status }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ safetyinspection.inspected_areas }}</p>
                     </td>
                     <td class="table-icons">
@@ -61,6 +62,7 @@
                 </tr>
                 {% endfor %}
             </tbody>
+            
         </table>
     </div>
     {% endblock %}

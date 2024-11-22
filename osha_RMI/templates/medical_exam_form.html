@@ -14,9 +14,7 @@ Exam{% endblock %}
  
 
   <div class="form-container">
-    <h2>{{ form.instance.pk|yesno:"Edit Medical
-        Exam,Add New Medical
-        Exam" }}</h2>
+    <h2>{{ form.instance.pk|yesno:"Edit Medical Exam,Add New Medical Exam" }}</h2>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}

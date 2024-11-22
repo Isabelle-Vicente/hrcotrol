@@ -4,4 +4,4 @@ from .models import Document
 class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ['title', 'description', 'category', 'file']
+        fields = ['title', 'description', 'category', 'file', 'uploaded_by']
