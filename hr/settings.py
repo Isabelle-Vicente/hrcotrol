@@ -16,8 +16,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    
     'department',
     'employees',
+    'dp_benefitsmanagement',
+    'dp_contractmanagement',
 
     'recrut_applicant',
     'recrut_vacancymanagement',
@@ -30,6 +34,12 @@ INSTALLED_APPS = [
     'osha_safetyequipmentmanagement',
     'osha_documentationandcompliance',
     'osha_SPP',
+
+    'trg_trainingmanagement',
+    'trg_participantmanagement',
+    'trg_instructormanagement',
+    'trg_certification',
+    'trg_reports',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +50,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'hr.middleware.Custom404Middleware',
+
 ]
 
 ROOT_URLCONF = 'hr.urls'

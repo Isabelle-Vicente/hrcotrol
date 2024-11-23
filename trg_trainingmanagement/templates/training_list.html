@@ -1,0 +1,64 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Training Management</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Training Management</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by employee name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'training_create' %}">Add Training</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Type</td>
+                    <td>Value</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for training in trainings %}
+                <tr>
+                    <td>
+                        <p>{{ training.title }}</p>
+                    </td>
+                    <td>
+                        <p>{{ training.type }}</p>
+                    </td>
+                    <td>
+                        <p>{{ training.start_date }}</p>
+                    </td>
+                    <td>
+                        <p>{{ training.end_date }}</p>
+                    </td>
+                
+                    <td class="table-icons">
+                        <a href="{% url 'training_update' training.id %}"><i class="ph-fill ph-pencil"></i></a>
+                        <a href="{% url 'training_delete' participant.pk %}"><i class="ph-fill ph-trash"></i></a>
+
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No trainings found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -9,3 +9,5 @@ urlpatterns = [
     path('applicants/<int:pk>/json/', views.applicant_detail, name='applicant_detail_json'),
 
 ]
+
+

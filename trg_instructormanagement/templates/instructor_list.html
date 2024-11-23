@@ -1,0 +1,70 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Instructor Management</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Instructor </h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'instructor_create' %}">Add Instructor</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Specialization</td>
+                    <td>Email</td>
+                    <td>Phone</td>
+                    <td>Training</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for instructor in instructors %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <p>{{ instructor.name }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p>{{ instructor.specialization }}</p>
+                    </td>
+                    <td>
+                        <p>{{ instructor.email }}</p>
+                    </td>
+                    <td>
+                        <p>{{ instructor.phone }}</p>
+                    </td>
+                    <td>
+                        <p>{{ instructor.trainings }}</p>
+                    </td>
+                 
+                   
+                    <td class="table-icons">
+                        <a href="{% url 'instructor_update' instructor.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'instructor_delete' instructor.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No instructor found.</td>
+                </tr>
+               
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+    {% endblock %}

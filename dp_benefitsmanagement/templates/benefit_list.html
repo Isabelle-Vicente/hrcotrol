@@ -1,0 +1,66 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Benefit Management</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Benefit Management</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by employee name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'create_benefit' %}">Add Benefit</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Employee</td>
+                    <td>Benefit Type</td>
+                    <td>Value</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for benefit in benefits %}
+                <tr>
+                    <td class="people">
+                        <div>
+                            <p>{{ benefit.employee.first_name }} {{ benefit.employee.last_name }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p>{{ benefit.benefit_type }}</p>
+                    </td>
+                    <td>
+                        <p>{{ benefit.value }}</p>
+                    </td>
+                    <td>
+                        <p>{{ benefit.start_date }}</p>
+                    </td>
+                    <td>
+                        <p>{{ benefit.end_date|default:"-" }}</p>
+                    </td>
+                    <td class="table-icons">
+                        <a href="{% url 'edit_benefit' benefit.id %}"><i class="ph-fill ph-pencil"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No benefits found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

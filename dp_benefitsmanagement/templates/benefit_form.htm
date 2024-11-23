@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}Benefit Management{% endblock %}
+
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+ 
+
+  <div class="form-container">
+    <h2>{{ form.instance.pk|yesno:"Edit Benefit,Add New Benefit" }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="flex">
+        <button  class="btn-primary" type="submit">Save</button>
+        <a href="{% url 'benefit_list' %}" class="btn-link">Back to List</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

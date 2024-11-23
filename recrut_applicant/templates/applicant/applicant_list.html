@@ -17,6 +17,16 @@
     <h2>All Applicant</h2>
     <div class="filters">
       <input type="search" placeholder="Filter by name" class="filter-input" />
+
+      <!-- <form method="get">
+        <button type="submit" class="btn"><i class="ph ph-magnifying-glass"></i></button>
+        <div>
+            {{ filter.form.as_p }}
+        </div>
+        <a href="{% url 'applicant_list' %}" class="btn btn-secondary"><i class="ph ph-x"></i></a>    
+      </form> -->
+    
+    
       <button class="btn_add">
         <a href="{% url 'applicant_create' %}">Add Applicants</a>
       </button>
@@ -89,18 +99,19 @@
   <div class="pagination">
     <span class="step-links">
       {% if applicants.has_previous %}
-      <a href="?page=1">&laquo; </a>
-      <a href="?page={{ applicant.previous_page_number }}">&lt;</a>
-      {% endif %}
-
-      <span class="current">
-        {{ applicants.number }} of {{ applicants.paginator.num_pages }}
-      </span>
-
-      {% if applicants.has_next %}
-      <a href="?page={{ applicant.next_page_number }}">&gt;</a>
-      <a href="?page={{ applicant.paginator.num_pages }}"> &raquo;</a>
-      {% endif %}
+      <a href="?page=1">&laquo;</a>
+      <a href="?page={{ applicants.previous_page_number }}">&lt;</a>
+    {% endif %}
+    
+    <span class="current">
+      {{ applicants.number }} of {{ applicants.paginator.num_pages }}
+    </span>
+    
+    {% if applicants.has_next %}
+      <a href="?page={{ applicants.next_page_number }}">&gt;</a>
+      <a href="?page={{ applicants.paginator.num_pages }}">&raquo;</a>
+    {% endif %}
+    
     </span>
   </div>
 </div>
@@ -171,7 +182,7 @@
     <h2>Documents</h2>
 
     <div class="resume">
-      <div class="flex"><img src="{% static 'image/pdf_icon.svg' %}" alt=""><p>Resume.pdf</p></div>
+      <div class="flex"><img src="{% static 'images/pdf_icon.svg' %}" alt=""><p>Resume.pdf</p></div>
       <p><a id="modalResume" href="#" target="_blank">Download <i class="ph ph-arrow-down"></i></a></p>
     </div>
 
@@ -181,7 +192,7 @@
     </div>
 
     <div class="resume">
-      <div class="flex"><img src="{% static 'image/pdf_icon.svg' %}" alt=""><p>Cover_Letter.pdf</p></div>
+      <div class="flex"><img src="{% static 'images/pdf_icon.svg' %}" alt=""><p>Cover_Letter.pdf</p></div>
       <p><a id="modalCoverLetter" href="#" target="_blank">Download <i class="ph ph-arrow-down"></i></a></p>
     </div>
 

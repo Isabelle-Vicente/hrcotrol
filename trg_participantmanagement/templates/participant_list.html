@@ -1,0 +1,68 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Participant Management</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Participant Management</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'participant_create' %}">Add Participant</a></button>
+        </div>
+    </div>
+
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Type</td>
+                    <td>Value</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in participants %}                
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <h5>{{ participant.employee.first_name }} {{ participant.employee.last_name }}</h5>
+                            <p>participant.employee.email</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p>{{ participant.employee.department }}</p>
+                    </td>
+                    <td>
+                        <p>{{ training.title }}</p>
+                    </td>
+                    <td>
+                        <p>{{ participant.registration_date|date:"Y-m-d H:i" }}</p>
+                    </td>
+                 
+                   
+                    <td class="table-icons">
+                        <a href="{% url 'participant_update' participant.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'participant_delete' participant.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No participant found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   
+    {% endblock %}

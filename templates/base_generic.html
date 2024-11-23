@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_styles %}{% endblock %}
-    <link rel="stylesheet" href="{% static 'css/help.css' %}">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,35 +37,49 @@
             <div class="menu">
                 <ul class="menu-links" id="menu-principal">
                     <li class="nav-link"><a href="#" id="recruitment-link"><i class="ph-fill ph-users-three icon"></i><span class="text nav-text">Recruitment</span></a></li>
-                    <li class="nav-link"><a href="{% url 'employee_list' %}"><i class="ph-fill ph-identification-badge icon"></i><span class="text nav-text">DP</span></a></li>                    <li class="nav-link"><a href="#"><i class="ph-fill ph-barbell icon"></i><span class="text nav-text">Training</span></a></li>
+                    <li class="nav-link"><a href="#" id="dp-link"><i class="ph-fill ph-identification-badge icon"></i><span class="text nav-text">DP</span></a></li>  
+                    <li class="nav-link"><a href="#" id="training-link"><i class="ph-fill ph-barbell icon"></i><span class="text nav-text">Training</span></a></li>
                     <li class="nav-link"><a href="#" id="occupational-safety-link"><i class="ph-fill ph-hard-hat icon"></i><span class="text nav-text">Occupational Safety</span></a></li>
-                    <li class="nav-link"><a href="#"><i class="ph-fill ph-security-camera icon"></i><span class="text nav-text">Asset Security</span></a></li>
                 </ul>
                 
+                <!-- Menu de Recruitment -->
                 <ul class="menu-links hidden" id="menu-recruitment">
-                    <!-- Sidebar Recruitment -->
                     <li class="nav-link"><a href="#" id="back-recruitment"><i class="ph-fill ph-arrow-fat-lines-left icon"></i><span class="text nav-text">Back</span></a></li>
-                    <li class="nav-link"><a href="{% url 'applicant_list' %}"><i class="ph-fill ph-users-four icon"></i></i><span class="text nav-text">Applicants</span></a></li>
-                    <li class="nav-link"><a href="{% url 'jobdetails_list' %}"><i class="ph-fill ph-cards-three icon"></i></i><span class="text nav-text">Vacancy Management</span></a></li>
-                    <li class="nav-link"><a href="{% url 'applicant_screening_list' %}"><i class="ph-fill  ph-polygon icon"></i></i><span class="text nav-text">Screening</span></a></li>
-                    <li class="nav-link"><a href="{% url 'reports_metrics' %}"><i class="ph-fill  ph-files icon"></i></i><span class="text nav-text">Reports and Metrics</span></a></li>
-                   
+                    <li class="nav-link"><a href="{% url 'applicant_list' %}"><i class="ph-fill ph-users-four icon"></i><span class="text nav-text">Applicants</span></a></li>
+                    <li class="nav-link"><a href="{% url 'jobdetails_list' %}"><i class="ph-fill ph-cards-three icon"></i><span class="text nav-text">Vacancy Management</span></a></li>
+                    <li class="nav-link"><a href="{% url 'applicant_screening_list' %}"><i class="ph-fill ph-polygon icon"></i><span class="text nav-text">Screening</span></a></li>
+                    <li class="nav-link"><a href="{% url 'reports_metrics' %}"><i class="ph-fill ph-files icon"></i><span class="text nav-text">Reports and Metrics</span></a></li>
+                </ul>
+        
+                <!-- Menu de DP -->
+                <ul class="menu-links hidden" id="menu-dp">
+                    <li class="nav-link"><a href="#" id="back-dp"><i class="ph-fill ph-arrow-fat-lines-left icon"></i><span class="text nav-text">Back</span></a></li>
+                    <li class="nav-link"><a href="{% url 'employee_list' %}"><i class="ph-fill ph-identification-badge icon"></i><span class="text nav-text">Employees</span></a></li>
+                    <li class="nav-link"><a href="{% url 'contract_list' %}"><i class="ph-fill ph-cards-three icon"></i><span class="text nav-text">Contracts Management</span></a></li>
+                    <li class="nav-link"><a href="{% url 'benefit_list' %}"><i class="ph-fill ph-cardholder icon"></i><span class="text nav-text">Benefits</span></a></li>
+                </ul>
+        
+                <!-- Menu de Training -->
+                <ul class="menu-links hidden" id="menu-training">
+                    <li class="nav-link"><a href="#" id="back-training"><i class="ph-fill ph-arrow-fat-lines-left icon"></i><span class="text nav-text">Back</span></a></li>
+                    <li class="nav-link"><a href="{% url 'training_list' %}"><i class="ph-fill ph-barbell icon"></i><span class="text nav-text">Training Management</span></a></li>
+                    <li class="nav-link"><a href="{% url 'participant_list' %}"><i class="ph-fill ph-user-list icon"></i><span class="text nav-text">Participant Management</span></a></li>
+                    <li class="nav-link"><a href="{% url 'instructor_list' %}"><i class="ph-fill ph-user-sound icon"></i><span class="text nav-text">Instructor Management</span></a></li>
+                    <li class="nav-link"><a href="{% url 'certificate_list' %}"><i class="ph-fill ph-certificate icon"></i><span class="text nav-text">Certificates</span></a></li>
                 </ul>
                 
+                <!-- Menu de Occupational Safety -->
                 <ul class="menu-links hidden" id="menu-occupational-safety">
-                    <!-- Sidebar Occupational Safety -->
                     <li class="nav-link"><a href="#" id="back-occupational-safety"><i class="ph-fill ph-arrow-fat-lines-left icon"></i><span class="text nav-text">Back</span></a></li>
                     <li class="nav-link"><a href="{% url 'risk_identification_list' %}"><i class="ph-fill ph-warning icon"></i><span class="text nav-text">Risk Identification</span></a></li>
                     <li class="nav-link"><a href="{% url 'incident_report_list' %}"><i class="ph-fill ph-warning-diamond icon"></i><span class="text nav-text">Incident Report</span></a></li>
                     <li class="nav-link"><a href="{% url 'document_list' %}"><i class="ph-fill ph-files icon"></i><span class="text nav-text">Documents</span></a></li>
                     <li class="nav-link"><a href="{% url 'safety_inspection_list' %}"><i class="ph-fill ph-stethoscope icon"></i><span class="text nav-text">RMI</span></a></li>
                     <li class="nav-link"><a href="{% url 'equipment_list' %}"><i class="ph-fill ph-traffic-cone icon"></i><span class="text nav-text">Safety Equipment</span></a></li>
-                    <li class="nav-link"><a href="{% url 'safetypolicy_list' %}"><i class="ph-fill ph-clipboard-text icon"></i><span class="text nav-text">SPP</span></a></li>
-
-                    
+                    <li class="nav-link"><a href="{% url 'safetypolicy_list' %}"><i class="ph-fill ph-clipboard-text icon"></i><span class="text nav-text">Safety Policies</span></a></li>
                 </ul>
-                
             </div>
+     
             <div class="bottom-content">
                 <li><a href="{% url 'logout' %}"><i class="ph-fill ph-sign-out icon"></i><span class="text nav-text">Logout</span></a></li>
                 <li class="mode">

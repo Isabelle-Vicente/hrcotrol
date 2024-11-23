@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator  
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
+from recrut_applicant.filters import ApplicantFilter
 from recrut_applicant.forms import ApplicantForm
 from recrut_applicant.models import Applicant
 from django.db.models import Q
@@ -17,32 +18,26 @@ def filter_applicants(keywords, minimum_education, minimum_experience):
     
     return filtered_applicants
 
+
 def applicant_list(request):
     # Pega todos os candidatos inicialmente
     applicant_list = Applicant.objects.all()
 
-    # Filtro por nome
-    name_filter = request.GET.get('name')
-    if name_filter:
-        applicant_list = applicant_list.filter(first_name__icontains=name_filter)
-
-    # Filtros adicionais (palavras-chave, formação mínima, experiência mínima)
-    keywords = request.GET.getlist('keywords', [])
-    minimum_education = request.GET.get('minimum_education', '')
-    minimum_experience = request.GET.get('minimum_experience', 0)
-
-    if keywords or minimum_education or minimum_experience:
-        applicant_list = filter_applicants(keywords, minimum_education, minimum_experience)
+    # Aplica o filtro por nome
+    applicant_filter = ApplicantFilter(request.GET, queryset=applicant_list)
 
     # Ordenação por nome e paginação
-    applicant_list = applicant_list.order_by('first_name')
-    paginator = Paginator(applicant_list, 4)
+    filtered_list = applicant_filter.qs.order_by('first_name')
+    paginator = Paginator(filtered_list, 4)
     page_number = request.GET.get('page')
     applicants = paginator.get_page(page_number)
 
+    # Passa o filtro para o contexto
     return render(request, 'applicant/applicant_list.html', {
         'applicants': applicants,
+        'filter': applicant_filter,  # Adicione o filtro aqui
     })
+
 
 def create_applicant(request):
     if request.method == 'POST':
@@ -91,3 +86,4 @@ def applicant_detail(request, pk):
         'skills': applicant.skills,
     }
     return JsonResponse(data)
+

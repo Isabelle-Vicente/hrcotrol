@@ -21,13 +21,19 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 
 from employees.views import login_view
+from django.conf.urls import handler404
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_view, name='login'),
+    
     path('home/', TemplateView.as_view(template_name="base_generic.html"), name='home'),
     path('employees/', include('employees.urls')),
+    path('dp_benefits-management/', include('dp_benefitsmanagement.urls')),
+    path('dp_contract-management/', include('dp_contractmanagement.urls')),
+
+
 
 
     path('applicant/', include('recrut_applicant.urls')),
@@ -41,6 +47,13 @@ urlpatterns = [
     path('safety-equipment-management/', include('osha_safetyequipmentmanagement.urls')), 
     path('osha-documentationand-compliance/', include('osha_documentationandcompliance.urls')), 
     path('osha-safetyplanning-procedures/', include('osha_SPP.urls')), 
+
+    path('trg-training-management', include('trg_trainingmanagement.urls')),
+    path('trg-participant-management', include('trg_participantmanagement.urls')),
+    path('trg-instructor-management', include('trg_instructormanagement.urls')),
+    path('trg-certification', include('trg_certification.urls')),
+    path('trg_reports', include('trg_reports.urls')),
+
 
 
 

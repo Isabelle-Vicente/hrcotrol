@@ -16,7 +16,6 @@
     <div class="card-header">
         <h2>All Job Details</h2>
         <div class="filters">
-            <input type="search" placeholder="Filter by name" class="filter-input" />
             <button class="btn_add"><a href="{% url 'jobdetails_create' %}">Add Job Details</a></button>
         </div>
     </div>
@@ -70,20 +69,20 @@
         <span class="step-links">
             {% if jobs.has_previous %}
                 <a href="?page=1">&laquo; </a>
-                <a href="?page={{ job.previous_page_number }}">&lt;</a>
+                <a href="?page={{ jobs.previous_page_number }}">&lt;</a>
             {% endif %}
-
+    
             <span class="current">
-                 {{ jobs.number }} of {{ jobs.paginator.num_pages }}
+                {{ jobs.number }} of {{ jobs.paginator.num_pages }}
             </span>
-
+    
             {% if jobs.has_next %}
-                <a href="?page={{ job.next_page_number }}">&gt;</a>
-                <a href="?page={{ job.paginator.num_pages }}"> &raquo;</a>
+                <a href="?page={{ jobs.next_page_number }}">&gt;</a>
+                <a href="?page={{ jobs.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>
-</div>
+    
 
 
     <div id="jobdetailsModal" class="modal">

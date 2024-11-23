@@ -21,51 +21,68 @@ parentContainer.classList.toggle('active');
 });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    document.querySelectorAll('.submenu-toggle').forEach(toggle => {
-        toggle.addEventListener('click', (event) => {
-            event.preventDefault();
-
-        });
-    });
-});
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const menuPrincipal = document.getElementById('menu-principal');
     const menuRecruitment = document.getElementById('menu-recruitment');
+    const menuDp = document.getElementById('menu-dp');
+    const menuTraining = document.getElementById('menu-training');
     const menuOccupationalSafety = document.getElementById('menu-occupational-safety');
     
     const recruitmentLink = document.getElementById('recruitment-link');
+    const dpLink = document.getElementById('dp-link');
+    const trainingLink = document.getElementById('training-link');
+    const occupationalSafetyLink = document.getElementById('occupational-safety-link');
+    
     const backRecruitment = document.getElementById('back-recruitment');
+    const backDp = document.getElementById('back-dp');
+    const backTraining = document.getElementById('back-training');
     const backOccupationalSafety = document.getElementById('back-occupational-safety');
-    const occupationalSafetyLink = document.getElementById('occupational-safety-link');  
     
     function showMenu(menuToShow, menuToHide) {
         menuToHide.classList.add('hidden');
         menuToShow.classList.remove('hidden');
     }
 
+    // Links para abrir menus
     recruitmentLink.addEventListener('click', function(e) {
-        e.preventDefault(); 
-        showMenu(menuRecruitment, menuPrincipal); 
+        e.preventDefault();
+        showMenu(menuRecruitment, menuPrincipal);
+    });
+    
+    dpLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMenu(menuDp, menuPrincipal);
     });
 
-    // Quando clicar em "Back" no menu de Recruitment
-    backRecruitment.addEventListener('click', function(e) {
+    trainingLink.addEventListener('click', function(e) {
         e.preventDefault();
-        showMenu(menuPrincipal, menuRecruitment); 
-    });
-
-    backOccupationalSafety.addEventListener('click', function(e) {
-        e.preventDefault();
-        showMenu(menuPrincipal, menuOccupationalSafety); 
+        showMenu(menuTraining, menuPrincipal);
     });
 
     occupationalSafetyLink.addEventListener('click', function(e) {
         e.preventDefault();
-        showMenu(menuOccupationalSafety, menuPrincipal); 
+        showMenu(menuOccupationalSafety, menuPrincipal);
+    });
+
+    // Links para voltar aos menus principais
+    backRecruitment.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMenu(menuPrincipal, menuRecruitment);
+    });
+
+    backDp.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMenu(menuPrincipal, menuDp);
+    });
+
+    backTraining.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMenu(menuPrincipal, menuTraining);
+    });
+
+    backOccupationalSafety.addEventListener('click', function(e) {
+        e.preventDefault();
+        showMenu(menuPrincipal, menuOccupationalSafety);
     });
 });
 

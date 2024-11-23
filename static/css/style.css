@@ -387,6 +387,7 @@ header{
 .pagination {
     margin: 20px 0;
     text-align: center;
+    color: var(--text-color);
 }
 
 .step-links a {
@@ -399,48 +400,3 @@ header{
     font-weight: lighter;
 }
 
-
-.submenu {
-    display: none; /* Oculta o submenu por padrão */
-    list-style: none; /* Remove os marcadores de lista */
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
-}
-
-.submenu.show {
-    display: block; /* Exibe o submenu quando a classe 'show' é aplicada */
-    position: absolute; /* Permite que o submenu se sobreponha ao conteúdo abaixo */
-    background-color: #fff; /* Cor de fundo do submenu */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra para efeito de profundidade */
-    z-index: 1000; /* Garante que o submenu fique acima de outros elementos */
-}
-
-.submenu li {
-    padding: 10px 15px; /* Espaçamento interno para os itens do submenu */
-}
-
-.submenu li a {
-    color: #333; /* Cor do texto dos links */
-    text-decoration: none; /* Remove o sublinhado dos links */
-    display: block; /* Faz com que o link ocupe toda a área do item */
-}
-
-.submenu li a:hover {
-    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
-}
-
-.hidden {
-    display: none;
-}
-
-.sub-sidebar {
-    /* Estilo para sub-sidebars */
-    position: fixed;
-    width: 260px;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background: var(--sidebar-color);
-    transition: var(--tran-05);
-    z-index: 101;
-}

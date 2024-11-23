@@ -1,0 +1,22 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block title %}Contract{% endblock %}
+
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <h2>{{ form.instance.pk|yesno:"Edit Contract,New Contract" }}</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'contract_list' %}" class="btn-link">Back to List</a>
+
+</div>
+{% endblock %}

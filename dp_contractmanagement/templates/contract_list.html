@@ -1,0 +1,66 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Contract Management</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Contract Management</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'contract_create' %}">Add Contract</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Employee</td>
+                    <td>Contract Type</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Document</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contract in contracts %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <p>{{ contract.employee }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p>{{ contract.contract_type }}</p>
+                    </td>
+                    <td>
+                        <p>{{ contract.start_date }}</p>
+                    </td>
+                    <td>
+                        <p>{{ contract.end_date }}</p>
+                    </td>
+                    <td>
+                        <p>{{ contract.document }}</p>
+                    </td>
+                 
+                 
+                   
+                    <td class="table-icons">
+                        <a href="{% url 'contract_update' contract.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'contract_delete' contract.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+    {% endblock %}

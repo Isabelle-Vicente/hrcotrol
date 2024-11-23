@@ -1,0 +1,65 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="main-title">
+    <h1>Training Reports</h1>
+</section>
+
+<div class="card">
+    <div class="card-header">
+        <h2>All Training Reports</h2>
+        <div class="filters">
+            <input type="search" placeholder="Filter by name" class="filter-input" />
+            <button class="btn_add"><a href="{% url 'create_report' %}">Add Reports</a></button>
+        </div>
+    </div>
+    <div class="board">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Type of Report</td>
+                    <td>Training</td>
+                    <td>Data</td>
+                    <td>Created By</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td class="people">
+                        <div class="">
+                            <p>{{ report.title }}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <p>{{ report.type }}</p>
+                    </td>
+                    <td>
+                        <p>{{ report.training }}</p>
+                    </td>
+                    <td>
+                        <p>{{ report.data }}</p>
+                    </td>
+                    <td>
+                        <p>{{ report.created_by }}</p>
+                    </td>
+                 
+                   
+                    <td class="table-icons">
+                        <a href="{% url 'update_report' report.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'delete_report' report.pk %}"><i class="ph-fill ph-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+    {% endblock %}
