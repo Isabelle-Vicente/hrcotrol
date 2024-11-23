@@ -14,10 +14,11 @@ def certificate_create(request):
         form = CertificateForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('certificate_list')
-        else:
-            form = CertificateForm()
-        return render(request, 'certificate_form.html', {'form': form})
+            return redirect('certificate_list')  
+    else:
+        form = CertificateForm()
+    
+    return render(request, 'certificate_form.html', {'form': form})
     
 def certificate_update(request, pk):
     certificate = get_object_or_404(Certificate, pk=pk)

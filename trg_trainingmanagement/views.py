@@ -12,9 +12,11 @@ def training_create(request):
         if form.is_valid():
             form.save()
             return redirect('training_list')
-        else:
-            form = TrainingForm()
-        return render(request, 'training_form.html', {'form': form})
+    else:
+        form = TrainingForm()  # Formulário instanciado para uma requisição GET
+    
+    return render(request, 'training_form.html', {'form': form})
+
     
 def training_update(request, pk):
     training = get_object_or_404(Training, pk=pk)

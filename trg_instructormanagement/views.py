@@ -7,14 +7,15 @@ def instructor_list(request):
     return render(request, 'instructor_list.html', {'instructor': instructor})
 
 def instructor_create(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = InstructorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('instructor_list')
-        else:
-            form = InstructorForm()
-        return render(request, 'instructor_form.html', {'form': form})
+            return redirect('instructor_list') 
+    else:
+        form = InstructorForm()
+    
+    return render(request, 'instructor_form.html', {'form': form})
     
 def instructor_update(request, pk):
     instructor = get_object_or_404(Instructor, pk=pk)
