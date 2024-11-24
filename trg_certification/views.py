@@ -2,12 +2,18 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 
 from trg_certification.forms import CertificateForm
+from django.core.paginator import Paginator
 from trg_certification.models import Certificate
 
-
 def certificate_list(request):
-    certificate = Certificate.objects.all()
-    return render(request, 'certificate_list.html', {'certificate': certificate})
+    certificates = Certificate.objects.all()
+
+    paginator = Paginator(certificates, 4)  
+    page_number = request.GET.get('page') 
+    page_obj = paginator.get_page(page_number) 
+
+    return render(request, 'certificate_list.html', {'page_obj': page_obj})
+
 
 def certificate_create(request):
     if request.method == 'POST':

@@ -4,7 +4,12 @@ from django.utils.translation import gettext_lazy as _
 CATEGORY_CHOICES = [
     ('technology', 'Technology'),
     ('finance', 'Finance'),
-    # Adicione mais opções aqui
+    ('marketing', 'Marketing'),
+    ('production', 'Production'),
+    ('administration', 'Administration'),
+    ('sales', 'Sales'),
+
+   
 ]
 
 class JobStatus(models.TextChoices):

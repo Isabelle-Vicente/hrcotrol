@@ -1,10 +1,17 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from trg_instructormanagement.forms import InstructorForm
 from trg_instructormanagement.models import Instructor
+from django.core.paginator import Paginator
+
 
 def instructor_list(request):
-    instructor = Instructor.objects.all()
-    return render(request, 'instructor_list.html', {'instructor': instructor})
+    instructors = Instructor.objects.all()
+
+    paginator = Paginator(instructors, 4)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number) 
+
+    return render(request, 'instructor_list.html', {'page_obj': page_obj})
 
 def instructor_create(request):
     if request.method == "POST":

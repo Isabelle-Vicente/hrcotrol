@@ -23,34 +23,27 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <td>Title</td>
-                    <td>Type</td>
-                    <td>Value</td>
-                    <td>Start Date</td>
-                    <td>End Date</td>
+                    <td>Employee</td>
+                    <td>Training</td>
+                    <td>Registration date</td>
                     <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
-                {% for participant in participants %}                
+                {% for participant in page_obj %}
                 <tr>
                     <td class="people">
-                        <div class="">
+                        <div>
                             <h5>{{ participant.employee.first_name }} {{ participant.employee.last_name }}</h5>
-                            <p>participant.employee.email</p>
+                            <p>{{ participant.employee.email }}</p>
                         </div>
                     </td>
                     <td>
-                        <p>{{ participant.employee.department }}</p>
-                    </td>
-                    <td>
-                        <p>{{ training.title }}</p>
+                        <p>{{ participant.trainings.title }}</p>
                     </td>
                     <td>
                         <p>{{ participant.registration_date|date:"Y-m-d H:i" }}</p>
                     </td>
-                 
-                   
                     <td class="table-icons">
                         <a href="{% url 'participant_update' participant.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'participant_delete' participant.pk %}"><i class="ph-fill ph-trash"></i></a>
@@ -58,11 +51,31 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" style="text-align: center;">No participant found.</td>
+                    <td colspan="4" style="text-align: center;">No participant found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-   
-    {% endblock %}
+
+    <!-- Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+{% endblock %}

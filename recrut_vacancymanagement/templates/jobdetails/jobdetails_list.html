@@ -64,24 +64,24 @@
     </div>
 
     
-    <!-- Paginador -->
     <div class="pagination">
         <span class="step-links">
             {% if jobs.has_previous %}
                 <a href="?page=1">&laquo; </a>
                 <a href="?page={{ jobs.previous_page_number }}">&lt;</a>
             {% endif %}
-    
+        
             <span class="current">
                 {{ jobs.number }} of {{ jobs.paginator.num_pages }}
             </span>
-    
+        
             {% if jobs.has_next %}
                 <a href="?page={{ jobs.next_page_number }}">&gt;</a>
                 <a href="?page={{ jobs.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>
+    
     
 
 

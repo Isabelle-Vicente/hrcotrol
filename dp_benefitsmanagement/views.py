@@ -1,10 +1,14 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
 from dp_benefitsmanagement.forms import BenefitForm
 from .models import Benefit
 
 def benefit_list(request):
-    benefit = Benefit.objects.all()
-    return render(request, 'benefit_list.html', {'benefit': benefit})
+    benefits_list = Benefit.objects.all()
+    paginator = Paginator(benefits_list, 4)  
+    page_number = request.GET.get('page')
+    benefits = paginator.get_page(page_number)
+    return render(request, 'benefit_list.html', {'benefits': benefits})
 
 def benefit_create(request):
     if request.method == 'POST':

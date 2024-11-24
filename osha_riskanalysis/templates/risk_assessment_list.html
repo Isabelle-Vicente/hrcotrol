@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for assessment in assessments %}
+                {% for assessment in page_obj %}
                 <tr>
                     <td class="people-des"><p>{{ assessment.risk_identification }}</p></td>
                     <td class="people-des"><p>{{ assessment.ergonomic }}</p></td>
@@ -46,7 +46,7 @@
                     <td class="people-des"><p>{{ assessment.chemical }}</p></td>
                     <td class="people-des"><p>{{ assessment.physical }}</p></td>
                     <td class="people-des"><p>{{ assessment.accident }}</p></td>
-                    <td class="icons-tablez">
+                    <td class="table-icons">
                         <a href="{% url 'risk_assessment_update' assessment.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'risk_assessment_delete' assessment.pk %}"><i class="ph-fill ph-trash"></i></a>
                     </td>
@@ -59,18 +59,18 @@
     <!-- Paginador -->
     <div class="pagination">
         <span class="step-links">
-            {% if assessments.has_previous %}
+            {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; </a>
-                <a href="?page={{ assessments.previous_page_number }}">&lt;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
             {% endif %}
 
             <span class="current">
-                 {{ assessments.number }} of {{ assessments.paginator.num_pages }}
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
 
-            {% if assessments.has_next %}
-                <a href="?page={{ assessments.next_page_number }}">&gt;</a>
-                <a href="?page={{ assessments.paginator.num_pages }}"> &raquo;</a>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>

@@ -24,20 +24,23 @@
                 <tr>
                     <td>Title</td>
                     <td>Type</td>
-                    <td>Value</td>
+                    <td>Description</td>
                     <td>Start Date</td>
                     <td>End Date</td>
                     <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
-                {% for training in trainings %}
+                {% for training in page_obj %}
                 <tr>
                     <td>
                         <p>{{ training.title }}</p>
                     </td>
                     <td>
                         <p>{{ training.type }}</p>
+                    </td>
+                    <td>
+                        <p>{{ training.description }}</p>
                     </td>
                     <td>
                         <p>{{ training.start_date }}</p>
@@ -47,9 +50,8 @@
                     </td>
                 
                     <td class="table-icons">
-                        <a href="{% url 'training_update' training.id %}"><i class="ph-fill ph-pencil"></i></a>
-                        <a href="{% url 'training_delete' participant.pk %}"><i class="ph-fill ph-trash"></i></a>
-
+                        <a href="{% url 'training_update' training.id %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'training_delete' training.pk %}"><i class="ph-fill ph-trash"></i></a>
                     </td>
                 </tr>
                 {% empty %}
@@ -59,6 +61,25 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Paginação -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo;</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                {% endif %}
+
+                <span class="current">
+                     {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'css/employees.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -34,11 +34,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for control in controls %}
+                {% for control in page_obj.object_list %}
                 <tr>
                     <td class="people-des"><p>{{ control.risk_assessment }}</p></td>
                     <td class="people-des"><p>{{ control.mitigation }}</p></td>
-                    <td class="download">
+                    <td class="table-icons">
                         <a href="{% url 'risk_control_update' control.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'risk_control_delete' control.pk %}"><i class="ph-fill ph-trash"></i></a>
                     </td>
@@ -51,18 +51,18 @@
     <!-- Paginador -->
     <div class="pagination">
         <span class="step-links">
-            {% if controls.has_previous %}
+            {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; </a>
-                <a href="?page={{ controls.previous_page_number }}">&lt;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
             {% endif %}
 
             <span class="current">
-                 {{ controls.number }} of {{ controls.paginator.num_pages }}
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
 
-            {% if controls.has_next %}
-                <a href="?page={{ controls.next_page_number }}">&gt;</a>
-                <a href="?page={{ controls.paginator.num_pages }}"> &raquo;</a>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>

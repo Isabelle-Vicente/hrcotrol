@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/lists.css' %}">
 {% endblock %}
 
+
 {% block content %}
 <section class="main-title">
     <h1>Benefit Management</h1>
@@ -51,7 +52,7 @@
                         <p>{{ benefit.end_date|default:"-" }}</p>
                     </td>
                     <td class="table-icons">
-                        <a href="{% url 'edit_benefit' benefit.id %}"><i class="ph-fill ph-pencil"></i></a>
+                        <a href="{% url 'benefit_update' benefit.id %}"><i class="ph-fill ph-eraser"></i></a>
                     </td>
                 </tr>
                 {% empty %}
@@ -61,6 +62,24 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if benefits.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ benefits.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ benefits.number }} of {{ benefits.paginator.num_pages }}
+            </span>
+
+            {% if benefits.has_next %}
+                <a href="?page={{ benefits.next_page_number }}">&gt;</a>
+                <a href="?page={{ benefits.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 {% endblock %}

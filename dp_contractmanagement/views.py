@@ -1,11 +1,16 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from dp_contractmanagement.models import Contract
 from .forms import ContractForm
-
+from django.core.paginator import Paginator
 
 def contract_list(request):
-    contract = Contract.objects.all()
-    return render(request, 'contract_list.html', {'contract': contract})
+    contracts_list = Contract.objects.all()
+    paginator = Paginator(contracts_list, 4)  
+    page_number = request.GET.get('page')
+    contracts = paginator.get_page(page_number)
+    return render(request, 'contract_list.html', {'contracts': contracts})
+
+
 
 def contract_create(request):
     if request.method == 'POST':

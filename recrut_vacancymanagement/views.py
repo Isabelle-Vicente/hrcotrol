@@ -4,7 +4,6 @@ from django.core.paginator import Paginator
 from recrut_vacancymanagement.models import JobDetails
 from recrut_vacancymanagement.forms import JobDetailsForm  
 
-# Lista de vagas
 def jobdetails_list(request):
     job_list = JobDetails.objects.all()
 

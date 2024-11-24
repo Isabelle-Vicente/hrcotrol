@@ -1,15 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import RiskIdentification, RiskAssessment, RiskControl
 from .forms import RiskIdentificationForm, RiskAssessmentForm, RiskControlForm
+from django.core.paginator import Paginator
+
 
 def dashboard(request):
     assessments = RiskAssessment.objects.all()
     return render(request, 'dashboard.html', {'assessments': assessments})
 
-# Risk Identification CRUD
 def risk_identification_list(request):
     risks = RiskIdentification.objects.all()
-    return render(request, 'risk_identification_list.html', {'risks': risks})
+
+    paginator = Paginator(risks, 4)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
+
+    return render(request, 'risk_identification_list.html', {'page_obj': page_obj})
 
 def risk_identification_create(request):
     if request.method == 'POST':
@@ -42,7 +48,13 @@ def risk_identification_delete(request, pk):
 # Risk Assessment CRUD
 def risk_assessment_list(request):
     assessments = RiskAssessment.objects.all()
-    return render(request, 'risk_assessment_list.html', {'assessments': assessments})
+
+    paginator = Paginator(assessments, 4) 
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
+
+    return render(request, 'risk_assessment_list.html', {'page_obj': page_obj})
+
 
 def risk_assessment_create(request):
     if request.method == 'POST':
@@ -72,10 +84,14 @@ def risk_assessment_delete(request, pk):
         return redirect('risk_assessment_list')
     return render(request, 'risk_assessment_confirm_delete.html', {'assessment': assessment})
 
-# Risk Control CRUD
 def risk_control_list(request):
     controls = RiskControl.objects.all()
-    return render(request, 'risk_control_list.html', {'controls': controls})
+
+    paginator = Paginator(controls, 4)  # Aqui você pode ajustar a quantidade de controles por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'risk_control_list.html', {'page_obj': page_obj})
 
 def risk_control_create(request):
     if request.method == 'POST':

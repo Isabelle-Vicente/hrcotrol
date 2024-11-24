@@ -18,7 +18,7 @@
 }
 
 .card {
-    background-color: #fff;
+    background-color: var(--bg-main);
     border-radius: 8px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
@@ -34,6 +34,7 @@
     font-weight: 500;
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    color: var(--text-color);
 }
 
 .flex {
@@ -115,5 +116,6 @@
     align-items: center;
     gap: 3px;
     margin-bottom: 0.5rem;
+    color: var(--text-color);
 }
 

@@ -12,7 +12,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h2>All Certificate </h2>
+        <h2>All Certificates</h2>
         <div class="filters">
             <input type="search" placeholder="Filter by name" class="filter-input" />
             <button class="btn_add"><a href="{% url 'certificate_create' %}">Add Certificate</a></button>
@@ -24,16 +24,16 @@
                 <tr>
                     <td>Participant</td>
                     <td>Training</td>
-                    <td>Issue date</td>
+                    <td>Issue Date</td>
                     <td>Validation Code</td>
                     <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
-                {% for certificate in certificates %}
+                {% for certificate in page_obj %}
                 <tr>
                     <td class="people">
-                        <div class="">
+                        <div>
                             <p>{{ certificate.participant }}</p>
                         </div>
                     </td>
@@ -46,8 +46,6 @@
                     <td>
                         <p>{{ certificate.validation_code }}</p>
                     </td>
-                 
-                   
                     <td class="table-icons">
                         <a href="{% url 'certificate_update' certificate.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'certificate_delete' certificate.pk %}"><i class="ph-fill ph-trash"></i></a>
@@ -55,11 +53,30 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" style="text-align: center;">No certificate found.</td>
+                    <td colspan="6" style="text-align: center;">No certificates found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
-            
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

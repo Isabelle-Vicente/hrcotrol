@@ -1,11 +1,16 @@
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.core.paginator import Paginator
 from trg_participantmanagement.forms import ParticipantForm
 from trg_participantmanagement.models import Participant
 
 def participant_list(request):
     participants = Participant.objects.prefetch_related('trainings').select_related('employee')
-    return render(request, 'participant_list.html', {'participants': participants})
+    
+    paginator = Paginator(participants, 4)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number) 
+
+    return render(request, 'participant_list.html', {'page_obj': page_obj})
 
 def participant_create(request):
     if request.method == 'POST':

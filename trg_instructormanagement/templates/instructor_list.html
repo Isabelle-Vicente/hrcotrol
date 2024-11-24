@@ -12,12 +12,13 @@
 
 <div class="card">
     <div class="card-header">
-        <h2>All Instructor </h2>
+        <h2>All Instructors</h2>
         <div class="filters">
             <input type="search" placeholder="Filter by name" class="filter-input" />
             <button class="btn_add"><a href="{% url 'instructor_create' %}">Add Instructor</a></button>
         </div>
     </div>
+
     <div class="board">
         <table width="100%">
             <thead>
@@ -31,10 +32,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for instructor in instructors %}
+                {% for instructor in page_obj %}
                 <tr>
                     <td class="people">
-                        <div class="">
+                        <div>
                             <p>{{ instructor.name }}</p>
                         </div>
                     </td>
@@ -50,8 +51,6 @@
                     <td>
                         <p>{{ instructor.trainings }}</p>
                     </td>
-                 
-                   
                     <td class="table-icons">
                         <a href="{% url 'instructor_update' instructor.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'instructor_delete' instructor.pk %}"><i class="ph-fill ph-trash"></i></a>
@@ -59,12 +58,30 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="6" style="text-align: center;">No instructor found.</td>
+                    <td colspan="6" style="text-align: center;">No instructors found.</td>
                 </tr>
-               
                 {% endfor %}
             </tbody>
-            
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

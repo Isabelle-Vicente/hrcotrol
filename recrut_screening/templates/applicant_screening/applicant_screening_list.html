@@ -69,25 +69,24 @@
     </div>
 
     
-    <!-- Paginador -->
     <div class="pagination">
         <span class="step-links">
             {% if screenings.has_previous %}
                 <a href="?page=1">&laquo; </a>
-                <a href="?page={{ screening.previous_page_number }}">&lt;</a>
+                <a href="?page={{ screenings.previous_page_number }}">&lt;</a>
             {% endif %}
-
+    
             <span class="current">
                  {{ screenings.number }} of {{ screenings.paginator.num_pages }}
             </span>
-
+    
             {% if screenings.has_next %}
-                <a href="?page={{ screening.next_page_number }}">&gt;</a>
-                <a href="?page={{ screening.paginator.num_pages }}"> &raquo;</a>
+                <a href="?page={{ screenings.next_page_number }}">&gt;</a>
+                <a href="?page={{ screenings.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>
-</div>
+    
 
 
     <div id="screeningModal" class="modal">
