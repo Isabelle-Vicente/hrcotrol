@@ -12,6 +12,8 @@ from django.shortcuts import redirect
 
 
 
+from django.contrib.auth.hashers import check_password
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -20,16 +22,21 @@ def login_view(request):
             password = form.cleaned_data['password']
             
             try:
-                employee = Employee.objects.get(email=email, password=password)
-                user, created = User.objects.get_or_create(username=email, defaults={'email': email})
-                auth_login(request, user)  
-                return redirect('home')
+                employee = Employee.objects.get(email=email)
+                
+                if check_password(password, employee.password):
+                    user, created = User.objects.get_or_create(username=email, defaults={'email': email})
+                    auth_login(request, user)
+                    return redirect('home')
+                else:
+                    messages.error(request, "Incorrect password.")
             except Employee.DoesNotExist:
-                messages.error(request, "Credenciais inválidas.")
+                messages.error(request, "User not found.")
     else:
         form = LoginForm()
     
     return render(request, 'login.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)  

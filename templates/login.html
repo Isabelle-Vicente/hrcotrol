@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}"> <!-- Link para o CSS -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
     <div class="login-container">
@@ -16,13 +16,25 @@
         <div class="form-side">
             <h1>Access the Platform</h1>
             <form method="post" class="login-form">
+                {% csrf_token %}
+                
                 <div class="input-wrapper">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" 
+                           value="{{ form.email.value }}" 
+                           placeholder="Enter your email">
                 </div>
-                <button type="submit">Entrar</button>
+                
+                <div class="input-wrapper">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" 
+                           value="{{ form.password.value }}" 
+                           placeholder="Enter your password">
+                </div>
+                
+                <button type="submit">To enter</button>
             </form>
+
             {% if messages %}
             <ul>
                 {% for message in messages %}
