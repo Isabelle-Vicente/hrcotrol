@@ -1,10 +1,16 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import EquipmentForm, MaintenanceInspectionForm, EPIDistributionForm
 from .models import Equipment, MaintenanceInspection, EPIDistribution
+from django.core.paginator import Paginator
+
 
 def equipment_list(request):
-    equipment = Equipment.objects.all()
-    return render(request, 'equipment_list.html', {'equipment': equipment})
+    equipments = Equipment.objects.all()  # Obter todos os equipamentos
+    paginator = Paginator(equipments, 4)  # 10 equipamentos por página
+    page_number = request.GET.get('page')  # Pega o número da página da URL
+    page_obj = paginator.get_page(page_number)  # Obtém os objetos para a página
+    return render(request, 'equipment_list.html', {'page_obj': page_obj})
+
 
 def equipment_create(request):
     if request.method == 'POST':
@@ -37,8 +43,11 @@ def equipment_delete(request, pk):
 # --------------------------------------------------------------------------------------
 
 def maintenance_inspection_list(request):
-    maintenanceinspection = MaintenanceInspection.objects.all()
-    return render(request, 'maintenance_inspection_list.html', {'maintenanceinspection': maintenanceinspection})
+    maintenanceinspections = MaintenanceInspection.objects.all()  # Obter todas as inspeções de manutenção
+    paginator = Paginator(maintenanceinspections, 4)  # 10 itens por página
+    page_number = request.GET.get('page')  # Pega o número da página da URL
+    page_obj = paginator.get_page(page_number)  # Obtém os objetos para a página
+    return render(request, 'maintenance_inspection_list.html', {'page_obj': page_obj})
 
 def maintenance_inspection_create(request):
     if request.method == 'POST':
@@ -72,8 +81,11 @@ def maintenance_inspection_delete(request, pk):
 
 
 def epi_distribution_list(request):
-    epidistribution = EPIDistribution.objects.all()
-    return render(request, 'epi_distribution_list.html', {'epidistribution': epidistribution})
+    epidistributions = EPIDistribution.objects.all()  # Obter todas as distribuições de EPI
+    paginator = Paginator(epidistributions, 4)  # 10 itens por página
+    page_number = request.GET.get('page')  # Pega o número da página da URL
+    page_obj = paginator.get_page(page_number)  # Obtém os objetos para a página
+    return render(request, 'epi_distribution_list.html', {'page_obj': page_obj})
 
 def epi_distribution_create(request):
     if request.method == 'POST':

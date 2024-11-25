@@ -35,30 +35,49 @@
                 </tr>
             </thead>
             <tbody>
-                {% for safetypolicy in safetypolicys %}
+                {% for safetypolicy in page_obj %}
                 <tr>
                     <td class="people">
                         <div class="">
                             <p>{{ safetypolicy.name }}</p>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ safetypolicy.description }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ safetypolicy.created_at }}</p>
                     </td>
                     <td class="active">
                         <p>{{ safetypolicy.active }}</p>
                     </td>
-                  
                     <td class="table-icons">
-                        <a href="{% url 'safetypolicy_update' incidentreport.pk %}"><i class="ph-fill ph-eraser"></i></a>
-                        <a href="{% url 'safetypolicy_delete' incidentreport.pk %}"><i class="ph-fill ph-trash"></i></a>
+                        <a href="{% url 'safetypolicy_update' safetypolicy.pk %}"><i class="ph-fill ph-eraser"></i></a>
+                        <a href="{% url 'safetypolicy_delete' safetypolicy.pk %}"><i class="ph-fill ph-trash"></i></a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Links de Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

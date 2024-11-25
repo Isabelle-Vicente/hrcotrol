@@ -1,10 +1,24 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import get_object_or_404, redirect, render
 from osha_RMI.forms import MedicalExamForm, OccupationalHealthMonitoringForm, SafetyInspectionForm
 from osha_RMI.models import MedicalExam, OccupationalHealthMonitoring, SafetyInspection
 
+# Paginação - Função Genérica
+def paginate_objects(request, objects_list, per_page=4):
+    paginator = Paginator(objects_list, per_page)
+    page_number = request.GET.get('page')
+    try:
+        return paginator.page(page_number)
+    except PageNotAnInteger:
+        return paginator.page(1)
+    except EmptyPage:
+        return paginator.page(paginator.num_pages)
+
+# Safety Inspection Views
 def safety_inspection_list(request):
-    safetyinspections = SafetyInspection.objects.all() 
-    return render(request, 'safety_inspection_list.html', {'safetyinspections': safetyinspections})  
+    safetyinspections = SafetyInspection.objects.all()
+    safetyinspections_paginated = paginate_objects(request, safetyinspections)
+    return render(request, 'safety_inspection_list.html', {'safetyinspections': safetyinspections_paginated})
 
 def safety_inspection_create(request):
     if request.method == 'POST':
@@ -12,11 +26,8 @@ def safety_inspection_create(request):
         if form.is_valid():
             form.save()
             return redirect('safety_inspection_list')
-        else:
-            print(form.errors)  
     else:
         form = SafetyInspectionForm()
-
     return render(request, 'safety_inspection_form.html', {'form': form})
 
 def safety_inspection_update(request, pk):
@@ -26,9 +37,9 @@ def safety_inspection_update(request, pk):
         if form.is_valid():
             form.save()
             return redirect('safety_inspection_list')
-        else:
-            form = SafetyInspectionForm(instance=safetyinspection)
-        return render(request, 'safety_inspection_form.html', {'form': form})
+    else:
+        form = SafetyInspectionForm(instance=safetyinspection)
+    return render(request, 'safety_inspection_form.html', {'form': form})
 
 def safety_inspection_delete(request, pk):
     safetyinspection = get_object_or_404(SafetyInspection, pk=pk)
@@ -37,20 +48,20 @@ def safety_inspection_delete(request, pk):
         return redirect('safety_inspection_list')
     return render(request, 'safety_inspection_confirm_delete.html', {'safetyinspection': safetyinspection})
 
-#----------------------------------------------------------------------------------------------------------
-
+# Medical Exam Views
 def medical_exam_list(request):
-    medicalexams = MedicalExam.objects.all()  
-    return render(request, 'medical_exam_list.html', {'medicalexams': medicalexams})  
+    medicalexams_list = MedicalExam.objects.all()
+    medicalexams_paginated = paginate_objects(request, medicalexams_list)
+    return render(request, 'medical_exam_list.html', {'medicalexams': medicalexams_paginated})
 
 def medical_exam_create(request):
     if request.method == 'POST':
         form = MedicalExamForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('medical_exam_list')  
+            return redirect('medical_exam_list')
     else:
-        form = MedicalExamForm() 
+        form = MedicalExamForm()
     return render(request, 'medical_exam_form.html', {'form': form})
 
 def medical_exam_update(request, pk):
@@ -60,9 +71,9 @@ def medical_exam_update(request, pk):
         if form.is_valid():
             form.save()
             return redirect('medical_exam_list')
-        else:
-            form = MedicalExamForm(instance=medicalexam)
-        return render(request, 'medical_exam_form.html', {'form': form})
+    else:
+        form = MedicalExamForm(instance=medicalexam)
+    return render(request, 'medical_exam_form.html', {'form': form})
 
 def medical_exam_delete(request, pk):
     medicalexam = get_object_or_404(MedicalExam, pk=pk)
@@ -71,20 +82,19 @@ def medical_exam_delete(request, pk):
         return redirect('medical_exam_list')
     return render(request, 'medical_exam_confirm_delete.html', {'medicalexam': medicalexam})
 
-#----------------------------------------------------------------------------------------------------------
-
+# Occupational Health Monitoring Views
 def occupational_health_monitoring_list(request):
-    occupationalhealthmonitoring = OccupationalHealthMonitoring.objects.all()
-    return render(request, 'occupational_health_monitoring_list.html', {'occupationalhealthmonitoring': occupationalhealthmonitoring})
+    occupationalhealthmonitorings = OccupationalHealthMonitoring.objects.all()
+    return render(request, 'occupational_health_monitoring_list.html', {'occupationalhealthmonitorings': occupationalhealthmonitorings})
 
 def occupational_health_monitoring_create(request):
     if request.method == 'POST':
-        form = OccupationalHealthMonitoring(request.POST)
+        form = OccupationalHealthMonitoringForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('occupational_health_monitoring_list')  
+            return redirect('occupational_health_monitoring_list')
     else:
-        form = OccupationalHealthMonitoringForm() 
+        form = OccupationalHealthMonitoringForm()
     return render(request, 'occupational_health_monitoring_form.html', {'form': form})
 
 def occupational_health_monitoring_update(request, pk):
@@ -94,9 +104,9 @@ def occupational_health_monitoring_update(request, pk):
         if form.is_valid():
             form.save()
             return redirect('occupational_health_monitoring_list')
-        else:
-            form = OccupationalHealthMonitoringForm(instance=occupationalhealthmonitoring)
-        return render(request, 'occupational_health_monitoring_form.html', {'form': form})
+    else:
+        form = OccupationalHealthMonitoringForm(instance=occupationalhealthmonitoring)
+    return render(request, 'occupational_health_monitoring_form.html', {'form': form})
 
 def occupational_health_monitoring_delete(request, pk):
     occupationalhealthmonitoring = get_object_or_404(OccupationalHealthMonitoring, pk=pk)

@@ -11,7 +11,6 @@
     <div class="buttons">
         <a class="sub-item" href="{% url 'safety_inspection_list' %}">Safety Inspection</a>
         <a class="sub-item" href="{% url 'medical_exam_list' %}">Medical Exam</a>
-        <a class="sub-item" href="{% url 'occupational_health_monitoring_list' %}">Occupational Health Monitoring</a>
     </div>
 </section>
 
@@ -65,4 +64,24 @@
             
         </table>
     </div>
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if safetyinspections.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ safetyinspections.previous_page_number }}">&lt;</a>
+            {% endif %}
+    
+            <span class="current">
+                 {{ safetyinspections.number }} of {{ safetyinspections.paginator.num_pages }}
+            </span>
+    
+            {% if safetyinspections.has_next %}
+                <a href="?page={{ safetyinspections.next_page_number }}">&gt;</a>
+                <a href="?page={{ safetyinspections.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
     {% endblock %}

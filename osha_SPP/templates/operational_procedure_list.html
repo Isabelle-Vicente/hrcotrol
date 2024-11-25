@@ -36,23 +36,23 @@
                 </tr>
             </thead>
             <tbody>
-                {% for operationalprocedure in operationalprocedures %}
+                {% for operationalprocedure in page_obj %}
                 <tr>
                     <td class="people">
                         <div class="">
                             <p>{{ operationalprocedure.title }}</p>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ operationalprocedure.description }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ operationalprocedure.policy }}</p>
                     </td>
                     <td class="active">
                         <p>{{ operationalprocedure.created_at }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ operationalprocedure.active }}</p>
                     </td>
                     <td class="table-icons">
@@ -64,4 +64,25 @@
             </tbody>
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo;</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        {% endif %}
+
+        <span class="current"> {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        {% endif %}
+    </span>
+
+    </div>
+
+</div>
+{% endblock %}

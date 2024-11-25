@@ -17,7 +17,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h2>All Emergency Plan</h2>
+        <h2>All Emergency Plans</h2>
         <div class="filters">
             <input type="search" placeholder="Filter by name" class="filter-input" />
             <button class="btn_add"><a href="{% url 'emergency_plan_create' %}">Add Emergency Plan</a></button>
@@ -36,23 +36,23 @@
                 </tr>
             </thead>
             <tbody>
-                {% for emergencyplan in emergencyplans %}
+                {% for emergencyplan in page_obj %}
                 <tr>
                     <td class="people">
                         <div class="">
                             <h5>{{ emergencyplan.emergency_type }}</h5>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ emergencyplan.description }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ emergencyplan.procedure }}</p>
                     </td>
                     <td class="active">
                         <p>{{ emergencyplan.created_at }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ emergencyplan.active }}</p>
                     </td>
                     <td class="table-icons">
@@ -64,4 +64,26 @@
             </tbody>
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Links de Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+{% endblock %}

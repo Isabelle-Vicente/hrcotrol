@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+<link rel="stylesheet" href="{% static 'css/lists.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -34,21 +34,21 @@
                 {% for incidentreport in incidentreports %}
                 <tr>
                     <td class="people">
-                        <div class="">
+                        <div>
                             <h5>{{ incidentreport.name }}</h5>
                             <p>{{ incidentreport.address }}</p>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ incidentreport.identification_number }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ incidentreport.identification_document }}</p>
                     </td>
                     <td class="active">
                         <p>{{ incidentreport.type_accident }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ incidentreport.doctor_name }}</p>
                     </td>
                     <td class="table-icons">
@@ -56,8 +56,32 @@
                         <a href="{% url 'incident_report_delete' incidentreport.pk %}"><i class="ph-fill ph-trash"></i></a>
                     </td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No incident reports found.</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Paginação -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if incidentreports.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ incidentreports.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ incidentreports.number }} of {{ incidentreports.paginator.num_pages }}
+            </span>
+
+            {% if incidentreports.has_next %}
+                <a href="?page={{ incidentreports.next_page_number }}">&gt;</a>
+                <a href="?page={{ incidentreports.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

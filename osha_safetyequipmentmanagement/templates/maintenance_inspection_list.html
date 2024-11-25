@@ -11,13 +11,13 @@
     <div class="buttons">
         <a class="sub-item" href="{% url 'equipment_list' %}">Equipment</a>
         <a class="sub-item" href="{% url 'maintenance_inspection_list' %}">Maintenance Inspection</a>
-        <a class="sub-item" href="{% url 'epi_distribution_list' %}">Maintenance Inspection</a>
+        <a class="sub-item" href="{% url 'epi_distribution_list' %}">EPI Distribution</a>
     </div>
 </section>
 
 <div class="card">
     <div class="card-header">
-        <h2>All Maintenance Inspection</h2>
+        <h2>All Maintenance Inspections</h2>
         <div class="filters">
             <input type="search" placeholder="Filter by name" class="filter-input" />
             <button class="btn_add"><a href="{% url 'maintenance_inspection_create' %}">Add Maintenance Inspection</a></button>
@@ -28,8 +28,8 @@
             <thead>
                 <tr>
                     <td>Name of the equipment</td>
-                    <td>Equipment type</td>
-                    <td>Data</td>
+                    <td>Equipment Type</td>
+                    <td>Date</td>
                     <td>Status</td>
                     <td>Observations</td>
                     <td>Actions</td>
@@ -43,16 +43,16 @@
                             <h5>{{ maintenanceinspection.equipment }}</h5>
                         </div>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ maintenanceinspection.equipment.type }}</p>
                     </td>
-                    <td >
-                        <p>{{ maintenanceinspection.data }}</p>
+                    <td>
+                        <p>{{ maintenanceinspection.date }}</p>
                     </td>
                     <td class="active">
-                        <p>{{ maintenanceinspection.stutas }}</p>
+                        <p>{{ maintenanceinspection.status }}</p>
                     </td>
-                    <td >
+                    <td>
                         <p>{{ maintenanceinspection.observations }}</p>
                     </td>
                     <td class="table-icons">
@@ -63,5 +63,24 @@
                 {% endfor %}
             </tbody>
         </table>
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if maintenanceinspections.has_previous %}
+                    <a href="?page=1">&laquo;</a>
+                    <a href="?page={{ maintenanceinspections.previous_page_number }}">&lt;</a>
+                {% endif %}
+                
+                <span class="current">
+                     {{ maintenanceinspections.number }} of {{ maintenanceinspections.paginator.num_pages }}
+                </span>
+                
+                {% if maintenanceinspections.has_next %}
+                    <a href="?page={{ maintenanceinspections.next_page_number }}">&gt;</a>
+                    <a href="?page={{ maintenanceinspections.paginator.num_pages }}"> &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

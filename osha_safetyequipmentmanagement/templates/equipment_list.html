@@ -11,7 +11,7 @@
     <div class="buttons">
         <a class="sub-item" href="{% url 'equipment_list' %}">Equipment</a>
         <a class="sub-item" href="{% url 'maintenance_inspection_list' %}">Maintenance Inspection</a>
-        <a class="sub-item" href="{% url 'epi_distribution_list' %}">Maintenance Inspection</a>
+        <a class="sub-item" href="{% url 'epi_distribution_list' %}">EPI Distribution</a>
     </div>
 </section>
 
@@ -36,25 +36,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for equipment in equipments %}
+                {% for equipment in page_obj %}
                 <tr>
                     <td class="people">
                         <div class="">
                             <h5>{{ equipment.name }}</h5>
                         </div>
                     </td>
-                    <td >
-                        <p>{{ equipment.type }}</p>
-                    </td>
-                    <td >
-                        <p>{{ equipment.description }}</p>
-                    </td>
-                    <td class="active">
-                        <p>{{ equipment.quantity }}</p>
-                    </td>
-                    <td >
-                        <p>{{ equipment.acquisition_date }}</p>
-                    </td>
+                    <td>{{ equipment.type }}</td>
+                    <td>{{ equipment.description }}</td>
+                    <td class="active">{{ equipment.quantity }}</td>
+                    <td>{{ equipment.acquisition_date }}</td>
                     <td class="table-icons">
                         <a href="{% url 'equipment_update' equipment.pk %}"><i class="ph-fill ph-eraser"></i></a>
                         <a href="{% url 'equipment_delete' equipment.pk %}"><i class="ph-fill ph-trash"></i></a>
@@ -64,4 +56,24 @@
             </tbody>
         </table>
     </div>
-    {% endblock %}
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+
+            <span class="current">
+                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}
